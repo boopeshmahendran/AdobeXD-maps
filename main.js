@@ -133,7 +133,9 @@ async function showDialog() {
     }
 }
 
-
+/**
+ * Main function which generates the map
+ */
 async function generateMap(selection) {
     if (selection.items.length === 0) {
         await error("Selection Error", "Please select a item");
@@ -158,10 +160,6 @@ async function generateMap(selection) {
             "&key=" + encodeURIComponent(apiKey);
 
         const tempFile = await utils.downloadImage(url);
-
-        console.log(url);
-        console.log(node.width);
-        console.log(node.height);
 
         const imageFill = new ImageFill(tempFile);
         node.fill = imageFill;

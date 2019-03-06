@@ -2,6 +2,12 @@ const uxp = require("uxp").storage;
 const apiKeys = require("./apiKeys.json").apiKeys;
 const fs = uxp.localFileSystem;
 
+/**
+ * Downloads an image from the photoUrl and
+ * stores it in a temp file and returns the file
+ *
+ * @param {url} photoUrl
+ */
 async function downloadImage(photoUrl) {
     try {
         const photoObj = await xhrBinary(photoUrl);
@@ -15,6 +21,12 @@ async function downloadImage(photoUrl) {
     }
 }
 
+/**
+ * Fetches a url with binary data and returns a promise
+ * which resolves with this data
+ *
+ * @param {url} url
+ */
 function xhrBinary(url) {
     return new Promise((resolve, reject) => {
         const req = new XMLHttpRequest();
@@ -42,7 +54,6 @@ function xhrBinary(url) {
  * Gets a random api key from the apikeys list in apikeys.json
  */
 function getApiKey() {
-    console.log(apiKeys);
     const length = apiKeys.length;
     return apiKeys[Math.floor(Math.random()*length)];
 }
