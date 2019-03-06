@@ -3,7 +3,7 @@ A map generator plugin for Adobe XD using google maps API
 
 ## Usage
 
-1. Select one or more text layers
+1. Select one or more layers
 2. Select `Plugins->Maps`
 
 ## Installation
