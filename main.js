@@ -50,7 +50,7 @@ async function showDialog() {
 <form method="dialog">
     <h1 class="h1">
         <span>Maps</span>
-        <img class="plugin-icon" src="x" />
+        <img class="plugin-icon" src="images/logo2.png" />
     </h1>
     <hr />
     <div class="container">

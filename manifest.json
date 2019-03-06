@@ -8,19 +8,19 @@
   "helpUrl" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
   "main" : "main.js",
   "icons" : [ {
-    "path" : "images/pluginIcon1.png",
+    "path" : "images/logo1.png",
     "width" : 48,
     "height" : 48
   }, {
-    "path" : "images/pluginIcon2.png",
+    "path" : "images/logo2.png",
     "width" : 96,
     "height" : 96
   }, {
-    "path" : "images/pluginIcon3.png",
+    "path" : "images/logo3.png",
     "width" : 144,
     "height" : 144
   }, {
-    "path" : "images/pluginIcon4.png",
+    "path" : "images/logo4.png",
     "width" : 192,
     "height" : 192
   } ],
