@@ -1,11 +1,11 @@
 {
-  "summary" : "Brief summary, 3-30 characters",
-  "website" : "https://mywebsite.com",
-  "keywords" : [ "array", "of", "keywords", "min 2 characters per keyword", "max total length 100 characters" ],
-  "languages" : [ "en", "de", "fr", "ja", "ko", "zh", "es", "pt" ],
-  "author" : "No more than 40 characters",
-  "description" : "This describes the plugin. If included it must contain at least 3 characters and no more than 1000 characters.",
-  "helpUrl" : "https://mywebsite.com/help",
+  "summary" : "Generate Maps",
+  "website" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
+  "keywords" : ["design", "maps", "google maps", "automation", "latitude", "longitude", "satellite", "terrain", "roadmap"],
+  "languages" : [ "en"],
+  "author" : "Boopesh Mahendran",
+  "description" : "Generate maps using the Google Maps API. \n\nEnter a place name or latitude and longitude and click Generate Map. It's that simple!\n\n You can also change the Map Type and Zoom Level.",
+  "helpUrl" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
   "main" : "main.js",
   "icons" : [ {
     "path" : "images/pluginIcon1.png",
@@ -25,7 +25,6 @@
     "height" : 192
   } ],
   "version" : "1.0.0",
-  "releaseNotes" : "Release notes for the plugin version, at least 3 characters and no more than 1000 characters",
   "name" : "Maps",
   "host" : {
     "app" : "XD",
@@ -35,6 +34,7 @@
   "uiEntryPoints" : [ {
     "label" : "Maps",
     "type" : "menu",
-    "commandId" : "generateMap"
+    "commandId" : "generateMap",
+    "shortcut": { "mac": "Cmd+Shift+G", "win": "Ctrl+Alt+G" }
   } ]
 }
