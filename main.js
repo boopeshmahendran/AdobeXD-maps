@@ -147,24 +147,25 @@ async function generateMap(selection) {
 
     const apiKey = utils.getApiKey();
 
-    var selectedNode = selection.items[0];
-    const url = "https://maps.googleapis.com/maps/api/staticmap?" +
-        "center=" + encodeURIComponent(response.values.location) +
-        "&zoom=" + encodeURIComponent(response.values.zoom) +
-        "&size=" + encodeURIComponent(selectedNode.width) + "x" + encodeURIComponent(selectedNode.height) +
-        "&scale=2" +
-        "&maptype=" + encodeURIComponent(response.values.mapType) +
-        "&markers=color:red%7C" + encodeURIComponent(response.values.location) +
-        "&key=" + encodeURIComponent(apiKey);
+    for (node of selection.items) {
+        const url = "https://maps.googleapis.com/maps/api/staticmap?" +
+            "center=" + encodeURIComponent(response.values.location) +
+            "&zoom=" + encodeURIComponent(response.values.zoom) +
+            "&size=" + encodeURIComponent(node.width) + "x" + encodeURIComponent(node.height) +
+            "&scale=2" +
+            "&maptype=" + encodeURIComponent(response.values.mapType) +
+            "&markers=color:red%7C" + encodeURIComponent(response.values.location) +
+            "&key=" + encodeURIComponent(apiKey);
 
-    const tempFile = await utils.downloadImage(url);
+        const tempFile = await utils.downloadImage(url);
 
-    console.log(url);
-    console.log(selectedNode.width);
-    console.log(selectedNode.height);
+        console.log(url);
+        console.log(node.width);
+        console.log(node.height);
 
-    const imageFill = new ImageFill(tempFile);
-    selectedNode.fill = imageFill;
+        const imageFill = new ImageFill(tempFile);
+        node.fill = imageFill;
+    }
 }
 
 module.exports = {
