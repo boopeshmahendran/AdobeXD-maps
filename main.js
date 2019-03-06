@@ -143,6 +143,7 @@ async function generateMap(selection) {
 
     var selectedNode = selection.items[0];
     const url = "https://maps.googleapis.com/maps/api/staticmap?" +
+        "center=" + encodeURIComponent(response.values.location) +
         "&zoom=" + encodeURIComponent(response.values.zoom) +
         "&size=" + encodeURIComponent(selectedNode.width) + "x" + encodeURIComponent(selectedNode.height) +
         "&scale=2" +
