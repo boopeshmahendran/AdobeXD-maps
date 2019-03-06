@@ -54,15 +54,15 @@ async function showDialog() {
     <hr />
     <div class="container">
                 <label>
-                    <span>Location:</span>
-                    <input type="text" id="location" placeholder="Location" />
+                    <span>Location</span>
+                    <input type="text" id="location" placeholder="Location (Enter a place name or address)" />
                 </label>
                 <label>
-                    <span>Zoom</span>
+                    <span>Zoom Level</span>
                     <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
                 </label>
                 <label>
-                    <span>Map type</span>
+                    <span>Map Type</span>
                     <select id="mapType" uxp-quiet="true">
                         <option value="roadmap">Roadmap</option>
                         <option value="terrain">Terrain</option>
