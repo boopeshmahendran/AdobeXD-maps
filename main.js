@@ -1,5 +1,6 @@
 const { ImageFill } = require("scenegraph");
 const utils = require("./utils");
+const { error } = require("./lib/dialogs");
 
 
 /**
@@ -134,6 +135,11 @@ async function showDialog() {
 
 
 async function generateMap(selection) {
+    if (selection.items.length === 0) {
+        await error("Selection Error", "Please select a item");
+        return ;
+    }
+
     const response = await showDialog();
     if (response.which === 0) { // cancel was pressed
         return;
