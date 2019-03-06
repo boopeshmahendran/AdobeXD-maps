@@ -147,7 +147,7 @@ async function generateMap(selection) {
 
     const apiKey = utils.getApiKey();
 
-    for (node of selection.items) {
+    for (let node of selection.items) {
         const url = "https://maps.googleapis.com/maps/api/staticmap?" +
             "center=" + encodeURIComponent(response.values.location) +
             "&zoom=" + encodeURIComponent(response.values.zoom) +
