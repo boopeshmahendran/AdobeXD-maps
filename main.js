@@ -198,10 +198,14 @@ async function generateMap(selection) {
             "&markers=color:red%7C" + encodeURIComponent(response.values.location) +
             "&key=" + encodeURIComponent(apiKey);
 
-        const tempFile = await utils.downloadImage(url);
-
-        const imageFill = new ImageFill(tempFile);
-        node.fill = imageFill;
+        try {
+            const tempFile = await utils.downloadImage(url);
+            const imageFill = new ImageFill(tempFile);
+            node.fill = imageFill;
+        } catch (errMsg) {
+            await error("Error", errMsg);
+            return;
+        }
 
         filledObjCount++;
     }
@@ -209,6 +213,7 @@ async function generateMap(selection) {
     finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
 
     await alert("Done", finishMsg);
+    return ;
 }
 
 module.exports = {

@@ -9,16 +9,11 @@ const fs = uxp.localFileSystem;
  * @param {url} photoUrl
  */
 async function downloadImage(photoUrl) {
-    try {
-        const photoObj = await xhrBinary(photoUrl);
-        const tempFolder = await fs.getTemporaryFolder();
-        const tempFile = await tempFolder.createFile("tmp", { overwrite: true });
-        await tempFile.write(photoObj, { format: uxp.formats.binary });
-        return tempFile;
-    } catch (err) {
-        console.log("error")
-        console.log(err.message);
-    }
+    const photoObj = await xhrBinary(photoUrl);
+    const tempFolder = await fs.getTemporaryFolder();
+    const tempFile = await tempFolder.createFile("tmp", { overwrite: true });
+    await tempFile.write(photoObj, { format: uxp.formats.binary });
+    return tempFile;
 }
 
 /**
@@ -42,7 +37,9 @@ function xhrBinary(url) {
                 reject('Request had an error: ${req.status}');
             }
         }
-        req.onerror = reject;
+        req.onerror = function() {
+            reject('Network Request failed. Please ensure you have internet connectivitiy.');
+        };
         req.onabort = reject;
         req.open('GET', url, true);
         req.responseType = "arraybuffer";
