@@ -1,6 +1,6 @@
 const { ImageFill } = require("scenegraph");
 const utils = require("./utils");
-const { error } = require("./lib/dialogs");
+const { alert, error } = require("./lib/dialogs");
 
 
 /**
@@ -149,11 +149,32 @@ async function generateMap(selection) {
 
     const apiKey = utils.getApiKey();
 
+    const totalObjCount = selection.items.length;
+    let filledObjCount = 0;
+    let finishMsg = "";
+
+
     for (let node of selection.items) {
+        let width, height;
+
+        if (node.constructor.name === "Rectangle") {
+            width = node.width;
+            height = node.height;
+        } else if (node.constructor.name === "Ellipse") {
+            width = node.radiusX * 2;
+            height = node.radiusY * 2;
+        } else if (node.constructor.name === "Path") { // selecting arbitrary values for path
+            width = 500;
+            height = 500;
+        } else {
+            finishMsg += `\n${node.constructor.name} is not supported and so was skipped.\n`
+            continue;
+        }
+
         const url = "https://maps.googleapis.com/maps/api/staticmap?" +
             "center=" + encodeURIComponent(response.values.location) +
             "&zoom=" + encodeURIComponent(response.values.zoom) +
-            "&size=" + encodeURIComponent(node.width) + "x" + encodeURIComponent(node.height) +
+            "&size=" + encodeURIComponent(width) + "x" + encodeURIComponent(height) +
             "&scale=2" +
             "&maptype=" + encodeURIComponent(response.values.mapType) +
             "&markers=color:red%7C" + encodeURIComponent(response.values.location) +
@@ -163,7 +184,13 @@ async function generateMap(selection) {
 
         const imageFill = new ImageFill(tempFile);
         node.fill = imageFill;
+
+        filledObjCount++;
     }
+
+    finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
+
+    await alert("Success", finishMsg);
 }
 
 module.exports = {
