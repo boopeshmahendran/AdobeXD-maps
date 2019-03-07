@@ -46,6 +46,9 @@ async function showDialog() {
     .row {
         align-items: center;
     }
+    .spread {
+        justify-content: space-between;
+    }
 </style>
 <form method="dialog">
     <h1 class="h1">
@@ -59,7 +62,10 @@ async function showDialog() {
                     <input type="text" id="location" placeholder="Location (Enter a place name or address)" />
                 </label>
                 <label>
-                    <span>Zoom Level</span>
+                    <div class="row spread">
+                        <span>Zoom Level</span>
+                        <span id="zoomValue">12</span>
+                    </div>
                     <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
                 </label>
                 <label>
@@ -78,6 +84,15 @@ async function showDialog() {
 </form>
     `;
 
+    // Update slider label on slider value change
+    const zoomValueEl = dialog.querySelector("#zoomValue");
+    const zoomSlider = dialog.querySelector("#zoom");
+    zoomSlider.addEventListener("change", function(e) {
+        zoomValueEl.textContent = zoomSlider.value;
+        console.log("value changed");
+    })
+
+    // Default select first value in map type drop down
     dialog.querySelector("#mapType").selectedIndex = 0;
 
     // The "ok" and "cancel" button indices. OK buttons are "submit" or "cta" buttons. Cancel buttons are "reset" buttons.
