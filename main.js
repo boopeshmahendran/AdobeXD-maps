@@ -70,7 +70,7 @@ async function showDialog() {
                 </label>
                 <label>
                     <span>Map Type</span>
-                    <select id="mapType" uxp-quiet="true">
+                    <select id="mapType">
                         <option value="roadmap">Roadmap</option>
                         <option value="terrain">Terrain</option>
                         <option value="satellite">Satellite</option>
