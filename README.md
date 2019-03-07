@@ -8,12 +8,12 @@ You can also change the **Map Type** and **Zoom Level**.
 ## Usage
 
 1. Select one or more layers
-2. Select `Plugins->Maps`
+2. Select `Plugins->Maps generator`
 
 ![Demo Gif](mapsDemo.gif)
 
 ## Installation
-1. Select `Plugins->Discover Plugins...` in Adobe XD and search for `Maps` to install it. (or)
+1. Select `Plugins->Discover Plugins...` in Adobe XD and search for `Maps generator` to install it. (or)
 2. Go to [releases](https://github.com/boopeshmahendran/AdobeXD-maps/releases/) and download the latest release `.xdx` file and double-click to install it.
 
 ## Issues and Feature Requests
