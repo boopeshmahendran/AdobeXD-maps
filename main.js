@@ -205,7 +205,7 @@ async function generateMap(selection) {
 
     finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
 
-    await alert("Success", finishMsg);
+    await alert("Done", finishMsg);
 }
 
 module.exports = {
