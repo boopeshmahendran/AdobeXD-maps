@@ -25,7 +25,7 @@
     "height" : 192
   } ],
   "version" : "1.0.0",
-  "name" : "Maps",
+  "name" : "Maps generator",
   "host" : {
     "app" : "XD",
     "minVersion" : "13.0"
