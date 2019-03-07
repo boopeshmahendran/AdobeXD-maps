@@ -34,7 +34,6 @@
   "uiEntryPoints" : [ {
     "label" : "Maps",
     "type" : "menu",
-    "commandId" : "generateMap",
-    "shortcut": { "mac": "Cmd+Shift+G", "win": "Ctrl+Alt+G" }
+    "commandId" : "generateMap"
   } ]
 }
