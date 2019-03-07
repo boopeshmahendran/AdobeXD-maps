@@ -32,7 +32,7 @@
   },
   "id" : "e1e8f866",
   "uiEntryPoints" : [ {
-    "label" : "Maps",
+    "label" : "Maps generator",
     "type" : "menu",
     "commandId" : "generateMap"
   } ]
