@@ -154,8 +154,8 @@ async function generateMap(selection) {
     if (selection.items.length === 0) {
         await error(
             "Selection Error",
-            "Please select some items.",
-            "Supported items are Rectangle, Ellipse and Path."
+            "Please select some layers.",
+            "Supported layers are Rectangle, Ellipse and Path."
          );
         return ;
     }
