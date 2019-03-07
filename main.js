@@ -89,7 +89,6 @@ async function showDialog() {
     const zoomSlider = dialog.querySelector("#zoom");
     zoomSlider.addEventListener("change", function(e) {
         zoomValueEl.textContent = zoomSlider.value;
-        console.log("value changed");
     })
 
     // Default select first value in map type drop down
@@ -153,7 +152,11 @@ async function showDialog() {
  */
 async function generateMap(selection) {
     if (selection.items.length === 0) {
-        await error("Selection Error", "Please select a item");
+        await error(
+            "Selection Error",
+            "Please select some items.",
+            "Supported items are Rectangle, Ellipse and Path."
+         );
         return ;
     }
 
