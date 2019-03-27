@@ -52,7 +52,7 @@ async function showDialog() {
 </style>
 <form method="dialog">
     <h1 class="h1">
-        <span>Maps</span>
+        <span>Maps generator</span>
         <img class="plugin-icon" src="images/logo2.png" />
     </h1>
     <hr />
@@ -76,6 +76,10 @@ async function showDialog() {
                         <option value="satellite">Satellite</option>
                         <option value="hybrid">Hybrid</option>
                     </select>
+                </label>
+                <label class="row">
+                    <input type="checkbox" checked="true" id="locationPin"/>
+                    <span> Location Pin </span>
                 </label>
     </div>
     <footer>
@@ -136,6 +140,7 @@ async function showDialog() {
                     location: dialog.querySelector('#location').value || '',
                     zoom: dialog.querySelector('#zoom').value || '',
                     mapType: dialog.querySelector('#mapType').value || '',
+                    locationPin: dialog.querySelector('#locationPin').checked
                 }
             };
         }
@@ -164,6 +169,8 @@ async function generateMap(selection) {
     if (response.which === 0) { // cancel was pressed
         return;
     }
+    
+    const inputValues = response.values;
 
     const apiKey = utils.getApiKey();
 
@@ -190,12 +197,12 @@ async function generateMap(selection) {
         }
 
         const url = "https://maps.googleapis.com/maps/api/staticmap?" +
-            "center=" + encodeURIComponent(response.values.location) +
-            "&zoom=" + encodeURIComponent(response.values.zoom) +
+            "center=" + encodeURIComponent(inputValues.location) +
+            "&zoom=" + encodeURIComponent(inputValues.zoom) +
             "&size=" + encodeURIComponent(width) + "x" + encodeURIComponent(height) +
             "&scale=2" +
-            "&maptype=" + encodeURIComponent(response.values.mapType) +
-            "&markers=color:red%7C" + encodeURIComponent(response.values.location) +
+            "&maptype=" + encodeURIComponent(inputValues.mapType) +
+            (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)): "") +
             "&key=" + encodeURIComponent(apiKey);
 
         try {
