@@ -174,7 +174,8 @@ function getDimensions(node) {
             width = node.radiusX * 2;
             height = node.radiusY * 2;
             break;
-        case "Path": // Selecting arbitrary values for path
+        case "BooleanGroup": // Selecting arbitrary values for path and boolean group
+        case "Path": 
             width = 500;
             height = 500;
             break;
@@ -195,7 +196,7 @@ async function generateMap(selection) {
         await error(
             "Selection Error",
             "Please select some layers.",
-            "Supported layers are Rectangle, Ellipse and Path."
+            "Supported layers are Rectangle, Ellipse, Path and BooleanGroup."
          );
         return ;
     }
