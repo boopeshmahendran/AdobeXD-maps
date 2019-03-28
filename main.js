@@ -173,9 +173,11 @@ function getDimensions(node) {
         case "Ellipse": 
             width = node.radiusX * 2;
             height = node.radiusY * 2;
+            break;
         case "Path":
             width = 500;
             height = 500;
+            break;
         default:
             throw "Not supported"
     }
