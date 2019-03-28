@@ -89,6 +89,7 @@ function parseStyles(jsonStr) {
                 style += 'element:all' + '|'
             }
 
+            // add stylers
             item.stylers.forEach((styler) => {
                 const propName = Object.keys(styler)[0];
                 const propVal = styler[propName].toString().replace('#', '0x');
