@@ -174,7 +174,7 @@ function getDimensions(node) {
             width = node.radiusX * 2;
             height = node.radiusY * 2;
             break;
-        case "Path":
+        case "Path": // Selecting arbitrary values for path
             width = 500;
             height = 500;
             break;
@@ -213,7 +213,7 @@ async function generateMap(selection) {
             mapStyles = utils.parseStyles(inputValues.styles);
         }
     } catch (errMsg) {
-        await error("Error", errMsg);
+        await error("Error", "There are errors in styles JSON");
         return;
     }
 

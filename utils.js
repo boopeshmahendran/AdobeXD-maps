@@ -69,7 +69,7 @@ function parseStyles(jsonStr) {
     try {
         json = JSON.parse(jsonStr);
     } catch (e) {
-        throw 'There are errors in style JSON';
+        throw e;
     }
 
     json.forEach((item) => {
