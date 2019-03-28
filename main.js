@@ -248,6 +248,7 @@ async function generateMap(selection) {
             const tempFile = await utils.downloadImage(url);
             const imageFill = new ImageFill(tempFile);
             node.fill = imageFill;
+            node.fillEnabled = true;
         } catch (errMsg) {
             await error("Error", errMsg);
             return;
