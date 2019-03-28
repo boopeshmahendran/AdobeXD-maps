@@ -66,11 +66,8 @@ function getApiKey() {
 function parseStyles(jsonStr) {
     let json;
     let result = [];
-    try {
-        json = JSON.parse(jsonStr);
-    } catch (e) {
-        throw e;
-    }
+
+    json = JSON.parse(jsonStr);
 
     json.forEach((item) => {
         let style = '';
