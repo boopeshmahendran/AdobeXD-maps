@@ -158,6 +158,33 @@ async function showDialog() {
 }
 
 /**
+ * Gets the dimensions of a node based on its type
+ * 
+ * @returns {Object} Object containing width and height
+ */
+function getDimensions(node) {
+    let width, height;
+    switch(node.constructor.name) {
+        case "Rectangle":
+            width = node.width;
+            height = node.height;
+            break;
+        case "Ellipse": 
+            width = node.radiusX * 2;
+            height = node.radiusY * 2;
+        case "Path":
+            width = 500;
+            height = 500;
+        default:
+            throw "Not supported"
+    }
+
+    return {
+        width, height
+    }
+}
+
+/**
  * Main function which generates the map
  */
 async function generateMap(selection) {
@@ -195,16 +222,9 @@ async function generateMap(selection) {
     for (let node of selection.items) {
         let width, height;
 
-        if (node.constructor.name === "Rectangle") {
-            width = node.width;
-            height = node.height;
-        } else if (node.constructor.name === "Ellipse") {
-            width = node.radiusX * 2;
-            height = node.radiusY * 2;
-        } else if (node.constructor.name === "Path") { // selecting arbitrary values for path
-            width = 500;
-            height = 500;
-        } else {
+        try {
+            ({width, height} = getDimensions(node));
+        } catch(errMsg) {
             finishMsg += `\n${node.constructor.name} is not supported and so was skipped.\n`
             continue;
         }
