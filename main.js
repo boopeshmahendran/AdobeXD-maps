@@ -201,7 +201,7 @@ async function generateMap(selection) {
     }
 
     const response = await showDialog();
-    if (response.which === 0) { // cancel was pressed
+    if (response.which === 0 || response.which === -1) { // cancel was pressed
         return;
     }
     
