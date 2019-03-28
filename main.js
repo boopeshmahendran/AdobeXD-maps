@@ -78,13 +78,14 @@ async function showDialog() {
                     </select>
                 </label>
                 <label class="row">
-                    <input type="checkbox" checked="true" id="locationPin"/>
                     <span> Location Pin </span>
+                    <input type="checkbox" checked="true" id="locationPin"/>
                 </label>
                 <label>
-                    <span>Enter Styles JSON</span>
-                    <textarea id="styles"></textarea>
+                    <span>(Optional) Enter Styles json: </span>
+                    <textarea height="100px" placeholder="Enter Styles json" id="styles"></textarea>
                 </label>
+                <p><a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a></p>
     </div>
     <footer>
         ${buttons.map(({label, type, variant} = {}, idx) => `<button id="btn${idx}" type="${type}" uxp-variant="${variant}">${label}</button>`).join('')}
@@ -203,10 +204,12 @@ async function generateMap(selection) {
     }
     
     const inputValues = response.values;
-    let mapStyles;
+    let mapStyles = '';
 
     try {
-        mapStyles = utils.parseStyles(inputValues.styles);
+        if (inputValues.styles) {
+            mapStyles = utils.parseStyles(inputValues.styles);
+        }
     } catch (errMsg) {
         await error("Error", errMsg);
         return;
@@ -236,7 +239,7 @@ async function generateMap(selection) {
             "&scale=2" +
             "&maptype=" + encodeURIComponent(inputValues.mapType) +
             (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)): "") +
-            "&" + mapStyles +
+            mapStyles +
             "&key=" + encodeURIComponent(apiKey);
 
         try {

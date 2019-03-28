@@ -98,7 +98,7 @@ function parseStyles(jsonStr) {
         result.push('style=' + encodeURIComponent(style));
     });
 
-    return result.join('&');
+    return '&' + result.join('&');
 }
 
 module.exports = {
