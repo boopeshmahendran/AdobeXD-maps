@@ -81,6 +81,10 @@ async function showDialog() {
                     <input type="checkbox" checked="true" id="locationPin"/>
                     <span> Location Pin </span>
                 </label>
+                <label>
+                    <span>Enter Styles JSON</span>
+                    <textarea id="styles"></textarea>
+                </label>
     </div>
     <footer>
         ${buttons.map(({label, type, variant} = {}, idx) => `<button id="btn${idx}" type="${type}" uxp-variant="${variant}">${label}</button>`).join('')}
@@ -140,7 +144,8 @@ async function showDialog() {
                     location: dialog.querySelector('#location').value || '',
                     zoom: dialog.querySelector('#zoom').value || '',
                     mapType: dialog.querySelector('#mapType').value || '',
-                    locationPin: dialog.querySelector('#locationPin').checked
+                    locationPin: dialog.querySelector('#locationPin').checked,
+                    styles: dialog.querySelector('#styles').value || ''
                 }
             };
         }
@@ -171,6 +176,14 @@ async function generateMap(selection) {
     }
     
     const inputValues = response.values;
+    let mapStyles;
+
+    try {
+        mapStyles = utils.parseStyles(inputValues.styles);
+    } catch (errMsg) {
+        await error("Error", errMsg);
+        return;
+    }
 
     const apiKey = utils.getApiKey();
 
@@ -203,6 +216,7 @@ async function generateMap(selection) {
             "&scale=2" +
             "&maptype=" + encodeURIComponent(inputValues.mapType) +
             (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)): "") +
+            "&" + mapStyles +
             "&key=" + encodeURIComponent(apiKey);
 
         try {

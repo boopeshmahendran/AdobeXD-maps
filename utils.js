@@ -55,7 +55,54 @@ function getApiKey() {
     return apiKeys[Math.floor(Math.random()*length)];
 }
 
+/**
+ * Converts a styles json to styles url parameter
+ * Copied from https://stackoverflow.com/questions/19115223/converting-google-maps-styles-array-to-google-static-maps-styles-string
+ * 
+ * @param {string} jsonStr 
+ * @return string
+ */
+
+function parseStyles(jsonStr) {
+    let json;
+    let result = [];
+    try {
+        json = JSON.parse(jsonStr);
+    } catch (e) {
+        throw 'There are errors in style JSON';
+    }
+
+    json.forEach((item) => {
+        let style = '';
+        if (item.stylers && item.stylers.length > 0) {
+            // add feature
+            if (item.hasOwnProperty('featureType')) {
+                style += 'feature:' + item.featureType + '|'
+            } else {
+                style += 'feature:all' + '|'
+            }
+
+            // add element
+            if (item.hasOwnProperty('elementType')) {
+                style += 'element:' + item.elementType + '|'
+            } else {
+                style += 'element:all' + '|'
+            }
+
+            item.stylers.forEach((styler) => {
+                const propName = Object.keys(styler)[0];
+                const propVal = styler[propName].toString().replace('#', '0x');
+                style += propName + ':' + propVal + '|';
+            });
+        }
+        result.push('style=' + encodeURIComponent(style));
+    });
+
+    return result.join('&');
+}
+
 module.exports = {
     downloadImage,
-    getApiKey
+    getApiKey,
+    parseStyles
 };
