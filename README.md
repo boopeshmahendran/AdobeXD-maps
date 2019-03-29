@@ -3,7 +3,7 @@ A map generator plugin for Adobe XD using **google maps API**.
 
 Enter a place name or latitude and longitude and click **Generate Map**. It's that simple!
 
-You can also change the **Map Type** and **Zoom Level**.
+You can also change the **Map Type**, **Zoom Level**, and add **Custom Styles**.
 
 **[Install it](https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866)**
 
