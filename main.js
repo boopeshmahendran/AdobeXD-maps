@@ -11,6 +11,9 @@ const ButtonsEnum = {
 
 let selectedMapType = '';
 
+/**
+ * Creates and initializes the dialog UI
+ */
 function init() {
     dialog.innerHTML = `
 <style>
@@ -168,6 +171,11 @@ function init() {
     document.appendChild(dialog);
 }
 
+/**
+ * Gets the Input data from the UI
+ * 
+ * @returns {Object} Object containing input data
+ */
 function getInputData() {
     return {
         location: dialog.querySelector('#location').value || '',
