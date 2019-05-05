@@ -20,30 +20,6 @@ function init() {
     form {
         width: 360px;
     }
-    #zoomLevelsImg {
-        height: 85px;
-    }
-    .mapType {
-        position: relative;
-    }
-    .selectedTick {
-        position: absolute;
-        width: 26px;
-        height: 26px;
-        top: 50%;
-        left: 35%;
-        visibility: hidden;
-    }
-    .mapType.selected .selectedTick {
-        visibility: visible;
-    }
-    .mapTypeImg {
-        height: 85px;
-        margin: 1px;
-    }
-    .mapTypeInput {
-        display: flex;
-    }
     .h1 {
         display: flex;
         flex-direction: row;
@@ -72,6 +48,30 @@ function init() {
     .spread {
         justify-content: space-between;
     }
+    #zoomLevelsImg {
+        height: 85px;
+    }
+    .mapType {
+        position: relative;
+    }
+    .selectedTick {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        top: 50%;
+        left: 35%;
+        visibility: hidden;
+    }
+    .mapType.selected .selectedTick {
+        visibility: visible;
+    }
+    .mapTypeImg {
+        height: 85px;
+        margin: 1px;
+    }
+    .mapTypeInput {
+        display: flex;
+    }
 </style>
 <form method="dialog">
     <h1 class="h1">
@@ -80,48 +80,48 @@ function init() {
     </h1>
     <hr />
     <div class="container">
-                <label>
-                    <span>Location</span>
-                    <input type="text" id="location" placeholder="Location (Enter a place name or address)" />
-                </label>
-                <label>
-                    <div class="row spread">
-                        <span>Zoom Level</span>
-                        <span id="zoomValue">12</span>
-                    </div>
-                    <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
-                </label>
-                <img id="zoomLevelsImg" src="images/zoomlevels.png" alt="Zoom Levels Example" />
-                <label>
-                    <span>Map Type</span>
-                </label>
-                <div class="mapTypeInput">
-                    <div class="mapType selected">
-                        <img class="mapTypeImg" src="images/roadmap.png" alt="Roadmap Map Type" />
-                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-                    </div>
-                    <div class="mapType">
-                        <img class="mapTypeImg" src="images/terrain.png" alt="Terrain Map Type" />
-                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-                    </div>
-                    <div class="mapType">
-                        <img class="mapTypeImg" src="images/satellite.png" alt="Satellite Map Type" />
-                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-                    </div>
-                    <div class="mapType">
-                        <img class="mapTypeImg" src="images/hybrid.png" alt="Hybrid Map Type" />
-                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-                    </div>
-                </div>
-                <label class="row">
-                    <input type="checkbox" checked="true" id="locationPin"/>
-                    <span> Include Location Pin </span>
-                </label>
-                <label>
-                    <span>(Optional) Enter Styles json: </span>
-                    <textarea height="100px" placeholder="Enter Styles json" id="styles"></textarea>
-                </label>
-                <p><a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a></p>
+        <label>
+            <span>Location</span>
+            <input type="text" id="location" placeholder="Location (Enter a place name or address)" />
+        </label>
+        <label>
+            <div class="row spread">
+                <span>Zoom Level</span>
+                <span id="zoomValue">12</span>
+            </div>
+            <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
+        </label>
+        <img id="zoomLevelsImg" src="images/zoomlevels.png" alt="Zoom Levels Example" />
+        <label>
+            <span>Map Type</span>
+        </label>
+        <div class="mapTypeInput">
+            <div class="mapType selected">
+                <img class="mapTypeImg" src="images/roadmap.png" alt="Roadmap Map Type" />
+                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+            </div>
+            <div class="mapType">
+                <img class="mapTypeImg" src="images/terrain.png" alt="Terrain Map Type" />
+                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+            </div>
+            <div class="mapType">
+                <img class="mapTypeImg" src="images/satellite.png" alt="Satellite Map Type" />
+                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+            </div>
+            <div class="mapType">
+                <img class="mapTypeImg" src="images/hybrid.png" alt="Hybrid Map Type" />
+                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+            </div>
+        </div>
+        <label class="row">
+            <input type="checkbox" checked="true" id="locationPin"/>
+            <span> Include Location Pin </span>
+        </label>
+        <label>
+            <span>(Optional) Enter Styles json: </span>
+            <textarea height="100px" placeholder="Enter Styles json" id="styles"></textarea>
+        </label>
+        <p><a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a></p>
     </div>
     <footer>
         <button id="btn0" uxp-variant="primary">Cancel</button>
