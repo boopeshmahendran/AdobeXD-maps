@@ -9,6 +9,8 @@ const ButtonsEnum = {
     OK: 1
 };
 
+let selectedMapType = '';
+
 function init() {
     dialog.innerHTML = `
 <style>
@@ -17,6 +19,27 @@ function init() {
     }
     #zoomLevelsImg {
         height: 85px;
+    }
+    .mapType {
+        position: relative;
+    }
+    .selectedTick {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        top: 50%;
+        left: 35%;
+        visibility: hidden;
+    }
+    .mapType.selected .selectedTick {
+        visibility: visible;
+    }
+    .mapTypeImg {
+        height: 85px;
+        margin: 1px;
+    }
+    .mapTypeInput {
+        display: flex;
     }
     .h1 {
         display: flex;
@@ -68,13 +91,25 @@ function init() {
                 <img id="zoomLevelsImg" src="images/zoomlevels.png" alt="Zoom Levels Example" />
                 <label>
                     <span>Map Type</span>
-                    <select id="mapType">
-                        <option value="roadmap">Roadmap</option>
-                        <option value="terrain">Terrain</option>
-                        <option value="satellite">Satellite</option>
-                        <option value="hybrid">Hybrid</option>
-                    </select>
                 </label>
+                <div class="mapTypeInput">
+                    <div class="mapType selected">
+                        <img class="mapTypeImg" src="images/roadmap.png" alt="Roadmap Map Type" />
+                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+                    </div>
+                    <div class="mapType">
+                        <img class="mapTypeImg" src="images/terrain.png" alt="Terrain Map Type" />
+                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+                    </div>
+                    <div class="mapType">
+                        <img class="mapTypeImg" src="images/satellite.png" alt="Satellite Map Type" />
+                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+                    </div>
+                    <div class="mapType">
+                        <img class="mapTypeImg" src="images/hybrid.png" alt="Hybrid Map Type" />
+                        <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
+                    </div>
+                </div>
                 <label class="row">
                     <input type="checkbox" checked="true" id="locationPin"/>
                     <span> Include Location Pin </span>
@@ -99,10 +134,7 @@ function init() {
         zoomValueEl.textContent = zoomSlider.value;
     });
 
-    // Default select first value in map type drop down
-    dialog.querySelector("#mapType").selectedIndex = 0;
-
-    // Ensure that the form can submit when the user presses ENTER (we trigger the OK button here)
+    // Ensure that the form can submit when the user presses ENTER
     const form = dialog.querySelector('form');
     form.onsubmit = () => dialog.close('ok');
 
@@ -115,7 +147,35 @@ function init() {
         }
     });
 
+    // Map types input handling
+    const mapTypes = Array.from(dialog.querySelectorAll(".mapType"));
+    const mapTypeValues = ["roadmap", "terrain", "satellite", "hybrid"];
+
+    const selectMapType = idx => {
+        mapTypes.forEach(el => el.classList.remove('selected'));
+        mapTypes[idx].classList.add('selected');
+    };
+
+    mapTypes.forEach((el, idx) => {
+        el.onclick = e => {
+            e.preventDefault();
+            selectMapType(idx);
+            selectedMapType = mapTypeValues[idx];
+        }
+    })
+
+
     document.appendChild(dialog);
+}
+
+function getInputData() {
+    return {
+        location: dialog.querySelector('#location').value || '',
+        zoom: dialog.querySelector('#zoom').value || '',
+        mapType: selectedMapType,
+        locationPin: dialog.querySelector('#locationPin').checked,
+        styles: dialog.querySelector('#styles').value || ''
+    }
 }
 
 /**
@@ -133,49 +193,13 @@ async function showDialog() {
         } else {
             return {
                 which: ButtonsEnum.OK,
-                values: {
-                    location: dialog.querySelector('#location').value || '',
-                    zoom: dialog.querySelector('#zoom').value || '',
-                    mapType: dialog.querySelector('#mapType').value || '',
-                    locationPin: dialog.querySelector('#locationPin').checked,
-                    styles: dialog.querySelector('#styles').value || ''
-                }
+                values: getInputData()
             };
         }
     } catch(err) {
         // system refused the dialog
         return {which: ButtonsEnum.CANCEL, value: ''};
     } 
-}
-
-/**
- * Gets the dimensions of a node based on its type
- * 
- * @returns {Object} Object containing width and height
- */
-function getDimensions(node) {
-    let width, height;
-    switch(node.constructor.name) {
-        case "Rectangle":
-            width = node.width;
-            height = node.height;
-            break;
-        case "Ellipse": 
-            width = node.radiusX * 2;
-            height = node.radiusY * 2;
-            break;
-        case "BooleanGroup": // Selecting arbitrary values for path and boolean group
-        case "Path": 
-            width = 500;
-            height = 500;
-            break;
-        default:
-            throw "Not supported"
-    }
-
-    return {
-        width, height
-    }
 }
 
 /**
@@ -214,12 +238,11 @@ async function generateMap(selection) {
     let filledObjCount = 0;
     let finishMsg = "";
 
-
     for (let node of selection.items) {
         let width, height;
 
         try {
-            ({width, height} = getDimensions(node));
+            ({width, height} = utils.getDimensions(node));
         } catch(errMsg) {
             finishMsg += `\n${node.constructor.name} is not supported and so was skipped.\n`
             continue;

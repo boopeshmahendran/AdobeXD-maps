@@ -99,8 +99,39 @@ function parseStyles(jsonStr) {
     return '&' + result.join('&');
 }
 
+/**
+ * Gets the dimensions of a node based on its type
+ * 
+ * @returns {Object} Object containing width and height
+ */
+function getDimensions(node) {
+    let width, height;
+    switch(node.constructor.name) {
+        case "Rectangle":
+            width = node.width;
+            height = node.height;
+            break;
+        case "Ellipse": 
+            width = node.radiusX * 2;
+            height = node.radiusY * 2;
+            break;
+        case "BooleanGroup": // Selecting arbitrary values for path and boolean group
+        case "Path": 
+            width = 500;
+            height = 500;
+            break;
+        default:
+            throw "Not supported"
+    }
+
+    return {
+        width, height
+    }
+}
+
 module.exports = {
     downloadImage,
     getApiKey,
-    parseStyles
+    parseStyles,
+    getDimensions
 };
