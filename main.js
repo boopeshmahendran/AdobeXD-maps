@@ -2,20 +2,14 @@ const { ImageFill } = require("scenegraph");
 const utils = require("./utils");
 const { alert, error } = require("./lib/dialogs");
 
+const dialog = document.createElement('dialog');
 
-/**
- * Creates and show the input dialog UI
- * 
- * @returns {Promise} Resolves to an object of form {which, values}. `which` indicates which button
- * was pressed. `values` is an object containing the values of the form.
- */
-async function showDialog() {
-    let buttons = [
-        { label: "Cancel", variant: "primary" },
-        { label: "Generate Map", variant: "cta", type: "submit" }
-    ];
+const ButtonsEnum = {
+    CANCEL: 0,
+    OK: 1
+};
 
-    const dialog = document.createElement('dialog');
+function init() {
     dialog.innerHTML = `
 <style>
     form {
@@ -67,6 +61,7 @@ async function showDialog() {
                         <span id="zoomValue">12</span>
                     </div>
                     <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
+                    <img src="images/zoomlevels.png" alt="Zoom Levels Example" />
                 </label>
                 <label>
                     <span>Map Type</span>
@@ -88,7 +83,8 @@ async function showDialog() {
                 <p><a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a></p>
     </div>
     <footer>
-        ${buttons.map(({label, type, variant} = {}, idx) => `<button id="btn${idx}" type="${type}" uxp-variant="${variant}">${label}</button>`).join('')}
+        <button id="btn0" uxp-variant="primary">Cancel</button>
+        <button id="btn1" type="submit" uxp-variant="cta">Generate Map</button>
     </footer>
 </form>
     `;
@@ -98,49 +94,42 @@ async function showDialog() {
     const zoomSlider = dialog.querySelector("#zoom");
     zoomSlider.addEventListener("change", function(e) {
         zoomValueEl.textContent = zoomSlider.value;
-    })
+    });
 
     // Default select first value in map type drop down
     dialog.querySelector("#mapType").selectedIndex = 0;
-
-    // The "ok" and "cancel" button indices. OK buttons are "submit" or "cta" buttons. Cancel buttons are "reset" buttons.
-    let okButtonIdx = -1;
-    let cancelButtonIdx = -1;
-    let clickedButtonIdx = -1;
 
     // Ensure that the form can submit when the user presses ENTER (we trigger the OK button here)
     const form = dialog.querySelector('form');
     form.onsubmit = () => dialog.close('ok');
 
-    // Attach button event handlers and set ok and cancel indices
-    buttons.forEach(({type, variant} = {}, idx) => {
+    // Attach button event handlers
+    [0, 1].forEach(idx => {
         const button = dialog.querySelector(`#btn${idx}`);
-        if (type === 'submit' || variant === 'cta') {
-            okButtonIdx = idx;
-        }
-        if (type === 'reset') {
-            cancelButtonIdx = idx;
-        }
         button.onclick = e => {
             e.preventDefault();
-            clickedButtonIdx = idx;
-            dialog.close( idx === cancelButtonIdx ? 'reasonCanceled' : 'ok');
+            dialog.close( idx === ButtonsEnum.CANCEL ? 'reasonCanceled' : 'ok');
         }
     });
 
+    document.appendChild(dialog);
+}
+
+/**
+ * Show the input dialog UI
+ * 
+ * @returns {Promise} Resolves to an object of form {which, values}. `which` indicates which button
+ * was pressed. `values` is an object containing the values of the form.
+ */
+async function showDialog() {
     try {
-        document.appendChild(dialog);
         const response = await dialog.showModal();
         if (response === 'reasonCanceled') {
             // user hit ESC
-            return {which: cancelButtonIdx, value: ''};
+            return {which: ButtonsEnum.CANCEL, value: ''};
         } else {
-            if (clickedButtonIdx === -1) {
-                // user pressed ENTER, so no button was clicked!
-                clickedButtonIdx = okButtonIdx; // may still be -1, but we tried
-            }
             return {
-                which: clickedButtonIdx,
+                which: ButtonsEnum.OK,
                 values: {
                     location: dialog.querySelector('#location').value || '',
                     zoom: dialog.querySelector('#zoom').value || '',
@@ -152,10 +141,8 @@ async function showDialog() {
         }
     } catch(err) {
         // system refused the dialog
-        return {which: cancelButtonIdx, value: ''};
-    } finally {
-        dialog.remove();
-    }
+        return {which: ButtonsEnum.CANCEL, value: ''};
+    } 
 }
 
 /**
@@ -202,7 +189,7 @@ async function generateMap(selection) {
     }
 
     const response = await showDialog();
-    if (response.which === 0 || response.which === -1) { // cancel was pressed
+    if (response.which === ButtonsEnum.CANCEL) { // Dialog cancelled
         return;
     }
     
@@ -258,13 +245,15 @@ async function generateMap(selection) {
         filledObjCount++;
     }
 
-    if (finishMsg) { // Show done dialog if some layers are skipped
+    if (finishMsg) { // Show done dialog only if some layers are skipped
         finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
         await alert("Done", finishMsg);
     }
 
     return ;
 }
+
+init(); // Creates the dialog
 
 module.exports = {
     commands: {
