@@ -76,8 +76,8 @@ function init() {
                     </select>
                 </label>
                 <label class="row">
-                    <span> Location Pin </span>
                     <input type="checkbox" checked="true" id="locationPin"/>
+                    <span> Include Location Pin </span>
                 </label>
                 <label>
                     <span>(Optional) Enter Styles json: </span>
