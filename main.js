@@ -15,6 +15,9 @@ function init() {
     form {
         width: 360px;
     }
+    #zoomLevelsImg {
+        height: 85px;
+    }
     .h1 {
         display: flex;
         flex-direction: row;
@@ -61,8 +64,8 @@ function init() {
                         <span id="zoomValue">12</span>
                     </div>
                     <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
-                    <img src="images/zoomlevels.png" alt="Zoom Levels Example" />
                 </label>
+                <img id="zoomLevelsImg" src="images/zoomlevels.png" alt="Zoom Levels Example" />
                 <label>
                     <span>Map Type</span>
                     <select id="mapType">
