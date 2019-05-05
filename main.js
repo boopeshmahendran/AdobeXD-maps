@@ -258,9 +258,11 @@ async function generateMap(selection) {
         filledObjCount++;
     }
 
-    finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
+    if (finishMsg) { // Show done dialog if some layers are skipped
+        finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
+        await alert("Done", finishMsg);
+    }
 
-    await alert("Done", finishMsg);
     return ;
 }
 
