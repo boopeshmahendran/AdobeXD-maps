@@ -36,7 +36,7 @@ function init() {
         overflow: hidden;
     }
     .container {
-        zoverflow-x: hidden;
+        overflow-x: hidden;
         overflow-y: auto;
         height: auto;
     }
