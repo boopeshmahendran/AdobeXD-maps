@@ -48,8 +48,18 @@ function init() {
     .spread {
         justify-content: space-between;
     }
-    #zoomLevelsImg {
+    .zoomLevel {
+        width: 57px;
+        height: 81px;
+        margin: 1px;
+    }
+    .zoomLevelInput {
         height: 85px;
+        background: url("images/zoomlevels.png");
+        background-size: contain;
+    }
+    .mapTypeInput, .zoomLevelInput {
+        display: flex;
     }
     .mapType {
         position: relative;
@@ -68,9 +78,6 @@ function init() {
     .mapTypeImg {
         height: 85px;
         margin: 1px;
-    }
-    .mapTypeInput {
-        display: flex;
     }
 </style>
 <form method="dialog">
@@ -91,7 +98,14 @@ function init() {
             </div>
             <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
         </label>
-        <img id="zoomLevelsImg" src="images/zoomlevels.png" alt="Zoom Levels Example" />
+        <div class="zoomLevelInput">
+            <div class="zoomLevel"> </div>
+            <div class="zoomLevel"> </div>
+            <div class="zoomLevel"> </div>
+            <div class="zoomLevel"> </div>
+            <div class="zoomLevel"> </div>
+            <div class="zoomLevel"> </div>
+        </div>
         <label>
             <span>Map Type</span>
         </label>
@@ -130,11 +144,22 @@ function init() {
 </form>
     `;
 
-    // Update slider label on slider value change
+    // Zoom level input handling
     const zoomValueEl = dialog.querySelector("#zoomValue");
     const zoomSlider = dialog.querySelector("#zoom");
     zoomSlider.addEventListener("change", function(e) {
         zoomValueEl.textContent = zoomSlider.value;
+    });
+
+    const zoomLevels = Array.from(dialog.querySelectorAll(".zoomLevel"));
+    const zoomLevelValues = [2, 5, 9, 12, 15, 19];
+
+    zoomLevels.forEach((el, idx) => {
+        el.onclick = e => {
+            e.preventDefault();
+            zoomSlider.value = zoomLevelValues[idx];
+            zoomValueEl.textContent = zoomLevelValues[idx];
+        }
     });
 
     // Ensure that the form can submit when the user presses ENTER
@@ -154,18 +179,14 @@ function init() {
     const mapTypes = Array.from(dialog.querySelectorAll(".mapType"));
     const mapTypeValues = ["roadmap", "terrain", "satellite", "hybrid"];
 
-    const selectMapType = idx => {
-        mapTypes.forEach(el => el.classList.remove('selected'));
-        mapTypes[idx].classList.add('selected');
-    };
-
     mapTypes.forEach((el, idx) => {
         el.onclick = e => {
             e.preventDefault();
-            selectMapType(idx);
+            mapTypes.forEach(el => el.classList.remove('selected'));
+            mapTypes[idx].classList.add('selected');
             selectedMapType = mapTypeValues[idx];
         }
-    })
+    });
 
 
     document.appendChild(dialog);
