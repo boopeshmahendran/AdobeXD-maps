@@ -5,7 +5,7 @@
   "languages" : [ "en"],
   "author" : "Boopesh Mahendran",
   "description" : "Generate maps using the Google Maps API. \n\nEnter a place name or latitude and longitude and click Generate Map. It's that simple!\n\n You can also change the Map Type, Zoom Level and add Custom Styles.",
-  "releaseNotes": "1. Add options for styling the map. \n2.Add support for disabling location pin\n3.Add support for boolean group",
+  "releaseNotes": "1. Revamp the UI \n2. Retain input values per session",
   "helpUrl" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
   "main" : "main.js",
   "icons" : [ {
@@ -25,7 +25,7 @@
     "width" : 192,
     "height" : 192
   } ],
-  "version" : "1.1.0",
+  "version" : "1.2.0",
   "name" : "Maps generator",
   "host" : {
     "app" : "XD",
