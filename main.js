@@ -9,8 +9,6 @@ const ButtonsEnum = {
     OK: 1
 };
 
-let selectedMapType = '';
-
 /**
  * Creates and initializes the dialog UI
  */
@@ -19,6 +17,9 @@ function init() {
 <style>
     form {
         width: 360px;
+    }
+    label {
+        margin: 10px 0;
     }
     .h1 {
         display: flex;
@@ -55,29 +56,46 @@ function init() {
     }
     .zoomLevelInput {
         height: 85px;
+        width: 100%;
         background: url("images/zoomlevels.png");
+        background-size: contain;
+    }
+    #zoomValue, #mapType {
+        font-weight: 700;
+    }
+    .mapTypeInput {
+        height: 40px;
+        background: url("images/maptypes.png");
         background-size: contain;
     }
     .mapTypeInput, .zoomLevelInput {
         display: flex;
+        width: 350px;
+        margin-left: 5px;
     }
     .mapType {
+        width: 88px;
         position: relative;
+        height: 36px;
+        margin: 1px;
     }
-    .selectedTick {
+    .checkmark {
         position: absolute;
-        width: 26px;
-        height: 26px;
-        top: 50%;
-        left: 35%;
+        width: 16px;
+        height: 16px;
+        top: 12px;
+        left: 36px;
         visibility: hidden;
     }
-    .mapType.selected .selectedTick {
+    .mapType.selected .checkmark {
         visibility: visible;
     }
     .mapTypeImg {
         height: 85px;
         margin: 1px;
+    }
+    .stylesLink {
+        font-size: 13px;
     }
 </style>
 <form method="dialog">
@@ -88,54 +106,49 @@ function init() {
     <hr />
     <div class="container">
         <label>
-            <span>Location</span>
-            <input type="text" id="location" placeholder="Location (Enter a place name or address)" />
+            <p>Location</p>
+            <input type="text" id="location" placeholder="Enter a place or address" />
         </label>
         <label>
-            <div class="row spread">
-                <span>Zoom Level</span>
-                <span id="zoomValue">12</span>
-            </div>
+            <div class="row"><p>Zoom Level: </p><p id="zoomValue">12</p></div>
             <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
+            <div class="zoomLevelInput">
+                <div class="zoomLevel"> </div>
+                <div class="zoomLevel"> </div>
+                <div class="zoomLevel"> </div>
+                <div class="zoomLevel"> </div>
+                <div class="zoomLevel"> </div>
+                <div class="zoomLevel"> </div>
+            </div>
         </label>
-        <div class="zoomLevelInput">
-            <div class="zoomLevel"> </div>
-            <div class="zoomLevel"> </div>
-            <div class="zoomLevel"> </div>
-            <div class="zoomLevel"> </div>
-            <div class="zoomLevel"> </div>
-            <div class="zoomLevel"> </div>
-        </div>
         <label>
-            <span>Map Type</span>
+            <div class="row"><p>Map Type: </p><p id="mapType">Roadmap</p> </div>
+            <div class="mapTypeInput">
+                <div class="mapType selected">
+                    <img class="checkmark" src="images/checkmark.png" alt="selected" />
+                </div>
+                <div class="mapType">
+                    <img class="checkmark" src="images/checkmark.png" alt="selected" />
+                </div>
+                <div class="mapType">
+                    <img class="checkmark" src="images/checkmark.png" alt="selected" />
+                </div>
+                <div class="mapType">
+                    <img class="checkmark" src="images/checkmark.png" alt="selected" />
+                </div>
+            </div>
         </label>
-        <div class="mapTypeInput">
-            <div class="mapType selected">
-                <img class="mapTypeImg" src="images/roadmap.png" alt="Roadmap Map Type" />
-                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-            </div>
-            <div class="mapType">
-                <img class="mapTypeImg" src="images/terrain.png" alt="Terrain Map Type" />
-                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-            </div>
-            <div class="mapType">
-                <img class="mapTypeImg" src="images/satellite.png" alt="Satellite Map Type" />
-                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-            </div>
-            <div class="mapType">
-                <img class="mapTypeImg" src="images/hybrid.png" alt="Hybrid Map Type" />
-                <img class="selectedTick" src="images/selectedTick.png" alt="selectedTick" />
-            </div>
-        </div>
+        <label>
+            <p>Enter JSON styles (optional) </p>
+            <textarea height="80px" placeholder="Enter JSON styles" id="styles"></textarea>
+            <p class="stylesLink">
+                <a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a>
+            </p>
+        </label>
         <label class="row">
             <input type="checkbox" checked="true" id="locationPin"/>
-            <span> Include Location Pin </span>
+            <p> Include Location Pin </p>
         </label>
-        <label>
-            <span>(Optional) Enter Styles json: </span>
-            <textarea height="100px" placeholder="Enter Styles json" id="styles"></textarea>
-        </label>
-        <p><a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a></p>
     </div>
     <footer>
         <button id="btn0" uxp-variant="primary">Cancel</button>
@@ -177,14 +190,15 @@ function init() {
 
     // Map types input handling
     const mapTypes = Array.from(dialog.querySelectorAll(".mapType"));
-    const mapTypeValues = ["roadmap", "terrain", "satellite", "hybrid"];
+    const mapTypeValues = ["Roadmap", "Terrain", "Satellite", "Hybrid"];
+    const mapTypeValueEl = dialog.querySelector("#mapType");
 
     mapTypes.forEach((el, idx) => {
         el.onclick = e => {
             e.preventDefault();
             mapTypes.forEach(el => el.classList.remove('selected'));
             mapTypes[idx].classList.add('selected');
-            selectedMapType = mapTypeValues[idx];
+            mapTypeValueEl.textContent = mapTypeValues[idx];
         }
     });
 
@@ -201,7 +215,7 @@ function getInputData() {
     return {
         location: dialog.querySelector('#location').value || '',
         zoom: dialog.querySelector('#zoom').value || '',
-        mapType: selectedMapType,
+        mapType: dialog.querySelector('#mapType').textContent.toLowerCase(),
         locationPin: dialog.querySelector('#locationPin').checked,
         styles: dialog.querySelector('#styles').value || ''
     }
