@@ -19,7 +19,7 @@ function init() {
         width: 360px;
     }
     label {
-        margin: 10px 0;
+        margin-bottom: 10px;
     }
     .h1 {
         display: flex;
@@ -46,9 +46,6 @@ function init() {
     .row {
         align-items: center;
     }
-    .spread {
-        justify-content: space-between;
-    }
     .zoomLevel {
         width: 57px;
         height: 81px;
@@ -63,21 +60,22 @@ function init() {
     #zoomValue, #mapType {
         font-weight: 700;
     }
-    .mapTypeInput {
-        height: 40px;
-        background: url("images/maptypes.png");
-        background-size: contain;
-    }
-    .mapTypeInput, .zoomLevelInput {
+    .zoomLevelInput, .mapTypeInput {
         display: flex;
         width: 350px;
         margin-left: 5px;
+        margin-top: 5px;
     }
     .mapType {
         width: 88px;
         position: relative;
         height: 36px;
         margin: 1px;
+    }
+    .mapTypeInput {
+        height: 40px;
+        background: url("images/maptypes.png");
+        background-size: contain;
     }
     .checkmark {
         position: absolute;
@@ -89,10 +87,6 @@ function init() {
     }
     .mapType.selected .checkmark {
         visibility: visible;
-    }
-    .mapTypeImg {
-        height: 85px;
-        margin: 1px;
     }
     .stylesLink {
         font-size: 13px;
@@ -234,10 +228,7 @@ async function showDialog() {
             // user hit ESC
             return {which: ButtonsEnum.CANCEL, value: ''};
         } else {
-            return {
-                which: ButtonsEnum.OK,
-                values: getInputData()
-            };
+            return {which: ButtonsEnum.OK, values: getInputData()};
         }
     } catch(err) {
         // system refused the dialog
