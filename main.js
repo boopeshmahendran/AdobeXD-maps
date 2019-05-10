@@ -9,6 +9,8 @@ const ButtonsEnum = {
     OK: 1
 };
 
+let stylesValue = '';
+
 /**
  * Creates and initializes the dialog UI
  */
@@ -223,6 +225,10 @@ function getInputData() {
  */
 async function showDialog() {
     try {
+        // For some strange reason, value of textarea is not retained
+        // when dialog is closed and opened, so storing the previous
+        // value in a global variable and setting it on dialog open
+        dialog.querySelector('#styles').innerHTML = stylesValue;
         const response = await dialog.showModal();
         if (response === 'reasonCanceled') {
             // user hit ESC
@@ -233,7 +239,9 @@ async function showDialog() {
     } catch(err) {
         // system refused the dialog
         return {which: ButtonsEnum.CANCEL, value: ''};
-    } 
+    } finally {
+        stylesValue = dialog.querySelector('#styles').value;
+    }
 }
 
 /**
