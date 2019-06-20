@@ -10,22 +10,26 @@
   "main" : "main.js",
   "icons" : [ {
     "path" : "images/logo1.png",
+    "width" : 24,
+    "height" : 24
+  }, {
+    "path" : "images/logo2.png",
     "width" : 48,
     "height" : 48
   }, {
-    "path" : "images/logo2.png",
+    "path" : "images/logo3.png",
     "width" : 96,
     "height" : 96
   }, {
-    "path" : "images/logo3.png",
+    "path" : "images/logo4.png",
     "width" : 144,
     "height" : 144
   }, {
-    "path" : "images/logo4.png",
+    "path" : "images/logo5.png",
     "width" : 192,
     "height" : 192
   } ],
-  "version" : "1.2.0",
+  "version" : "1.3.0",
   "name" : "Maps generator",
   "host" : {
     "app" : "XD",
