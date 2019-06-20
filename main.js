@@ -1,4 +1,5 @@
 const { ImageFill } = require("scenegraph");
+const os = require("os");
 const utils = require("./utils");
 const { alert, error } = require("./lib/dialogs");
 
@@ -225,10 +226,13 @@ function getInputData() {
  */
 async function showDialog() {
     try {
-        // For some strange reason, value of textarea is not retained
-        // when dialog is closed and opened, so storing the previous
-        // value in a global variable and setting it on dialog open
-        dialog.querySelector('#styles').innerHTML = stylesValue;
+        // For some strange reason, value of textarea is not retained in mac
+        // when dialog is closed and opened, so storing the previous value
+        // in a global variable and setting it on dialog open only in mac
+        // In windows, the value is retained.
+        if (os.platform() === "darwin") {
+            dialog.querySelector('#styles').innerHTML = stylesValue;
+        }
         const response = await dialog.showModal();
         if (response === 'reasonCanceled') {
             // user hit ESC
