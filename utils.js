@@ -108,6 +108,7 @@ function getDimensions(node) {
     let width, height;
     switch(node.constructor.name) {
         case "Rectangle":
+        case "Polygon":
             width = node.width;
             height = node.height;
             break;
