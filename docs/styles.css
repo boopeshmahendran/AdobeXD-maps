@@ -1,4 +1,198 @@
-h1 {
-    color: red;
-    font-size: 30px;
+:root {
+    --primary-color: #3498db;
+    --darkened-primary-color: #2980b9;
+    --primary-text-color: #707070;
+    --secondary-text-color: #FFFFFF;
+}
+
+/* General styles */
+html, body {
+    font-family: Helvetica, sans-serif;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    color: var(--primary-text-color);
+}
+
+section, footer {
+    padding: 1.7em;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+a {
+    color: inherit;
+}
+
+/* Style classes */
+.headerText1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.headerText2 {
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+.bodyText {
+    font-size: 1.1rem;
+    max-width: 500px;
+    line-height: 1.5;
+}
+
+.align-right {
+    margin-left: auto;
+}
+
+.text-align-right {
+    text-align: right;
+}
+
+.text-align-center {
+    text-align: center;
+}
+
+.btn {
+    cursor: pointer;
+    padding: 0.7em 1.2em;
+    text-decoration: none;
+}
+
+.flex-row {
+    display: flex;
+}
+
+
+/* Hero section */
+.heroSection {
+    position: relative;
+    height: 400px;
+}
+
+.heroOverlayImg {
+    position: absolute;
+    right: 20px;
+    max-height: 700px;
+}
+
+.heroSection__content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 10%;
+    left: 10%;
+}
+
+.heroSection__text {
+    padding: 1em;
+}
+
+.heroSection__downloadBtn {
+    background-color: var(--primary-color);
+    color: white;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+.heroSection__downloadBtn:hover {
+    background-color: var(--darkened-primary-color);
+}
+
+.heroSection__usageBtn::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    background: var(--primary-color);
+    height: 3px;
+    position: absolute;
+    left: 0;
+    bottom: -0.3rem;
+}
+
+.heroSection__usageBtn {
+    position: relative;
+    padding: 0;
+    margin: 1em 2em;
+}
+
+/* Description section */
+.descriptionSection {
+    background: var(--primary-color);
+    color: var(--secondary-text-color);
+}
+
+/* Install section */
+.installSection img {
+    max-height: 700px;
+}
+
+/* Usage section */
+.usageSection {
+    background: var(--primary-color);
+    color: var(--secondary-text-color);
+}
+
+.usagePointSection {
+    justify-content: space-around;
+    margin: 2em 0;
+}
+
+.usagePointSection__img {
+    margin-top: 2em;
+    max-width: 40%;
+}
+
+.usagePointSection__content {
+    max-width: 40%;
+}
+
+.usagePointSection__img img {
+    max-width: 100%;
+}
+
+.usagePointSection:nth-child(odd) .usagePointSection__img {
+    order: 1;
+}
+
+/* Error section */
+.errorSection__error {
+    flex: 1;
+}
+
+/* Footer */
+footer {
+    background: var(--primary-color);
+    color: var(--secondary-text-color);
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 800px) {
+    .flex-row {
+        flex-direction: column;
+    }
+    .heroSection__content {
+        text-align: center;
+    }
+    .heroSection__text {
+        padding: 0;
+    }
+    .heroSection__img {
+        width: 100px;
+        height: 100px;
+    }
+    .installSection {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    .usagePointSection__img, .usagePointSection__content {
+        max-width: 100%;
+    }
+    .usagePointSection__img {
+        order: 1;
+    }
+    .heroOverlayImg {
+        display: none;
+    }
 }

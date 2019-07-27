@@ -1,13 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" content="Maps Generator - An adobe XD plugin">
     <title>Maps Generator for XD</title>
-    <link rel = "stylesheet" type = "text/css" href = "./styles.css" />
+    <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
 </head>
+
 <body>
-    <h1>Maps generator</h1>
+    <section class="heroSection">
+        <img class="heroOverlayImg" src="images/heroOverlayImg.png" alt="Maps Generator UI image" />
+        <div class="heroSection__content">
+            <div class="flex-row">
+                <img class="heroSection__img" src="images/heroImg.png" alt="Maps Generator icon" />
+                <div class="heroSection__text">
+                    <p class="headerText1">Maps generator</p>
+                    <p>An Adobe XD plugin</p>
+                </div>
+            </div>
+            <div class="flex-row">
+                <a class="btn heroSection__downloadBtn" target="_blank"
+                    href="https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866">
+                    Download now
+                </a>
+                <a href="#usageSection" class="btn heroSection__usageBtn">Learn How to Use</a>
+            </div>
+        </div>
+    </section>
+    <section class="descriptionSection">
+        <p class="headerText1">What It Does?</p>
+        <p class="bodyText">
+            Maps Generator lets you insert deeply customisable maps in your design with just
+            a few clicks using the google maps API. You can change the zoom level, map type
+            and even add custom styles.
+        </p>
+    </section>
+    <section class="installSection text-align-center">
+        <p class="headerText1">How to Install?</p>
+        <p>
+            Go to Manage Plugins and search for "Maps Generator or click
+            <a target="_blank" href="https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866">
+                here
+            </a>
+        </p>
+        <img src="images/installImg.png" alt="Installation image" />
+    </section>
+    <section id="usageSection" class="usageSection">
+        <div class="flex-row usagePointSection">
+            <div class="usagePointSection__img">
+                <img src="images/locationImg.png" alt="Enter zoom leven and map type image" />
+            </div>
+            <div class="usagePointSection__content">
+                <p class="headerText1">
+                    How to Use?
+                </p>
+                <p class="bodyText">
+                    <ul>
+                        <li>Select one or more layers</li>
+                        <li>Click on Plugins->Map Generator</li>
+                        <li>Enter a location and click generate</li>
+                    </ul>
+                </p>
+            </div>
+        </div>
+        <div class="flex-row usagePointSection">
+            <div class="usagePointSection__img">
+                <img src="images/mapTypeImg.png" alt="Enter zoom leven and map type image" />
+            </div>
+            <div class="usagePointSection__content">
+                <p class="headerText2">
+                    Change Map Type and Adjust Zoom Levels
+                </p>
+                <p class="bodyText">
+                    You can change map type to any of the following types - Roadmap, terrain, satellite and hybrid. You
+                    can also choose a zoom level from 1 - 20.
+                </p>
+            </div>
+        </div>
+        <div class="flex-row usagePointSection">
+            <div class="usagePointSection__img">
+                <img src="images/stylesImg.png" alt="Enter custom styles image" />
+            </div>
+            <div class="usagePointSection__content">
+                <p class="headerText2">
+                    Add custom styles
+                </p>
+                <p class="bodyText">
+                    You can even add custom styles to deeply customise your map.
+                    Take a look at
+                    <a target="_blank" href="https://snazzymaps.com/">
+                        Snazzy Maps
+                    </a>
+                    which provides a lot of custom map styles
+                </p>
+            </div>
+        </div>
+        <div class="flex-row usagePointSection">
+            <div class="usagePointSection__img">
+                <img src="images/locationPinImg.png" alt="Enter location pin image" />
+            </div>
+            <div class="usagePointSection__content">
+                <p class="headerText2">
+                    Disable default location pin if you want to add your own custom pin
+                </p>
+                <p class="bodyText">
+                    You can enable/disable the default location pin provided by google maps.
+                </p>
+            </div>
+        </div>
+    </section>
+    <section class="errorSection">
+        <p class="headerText1">What is the meaning of the ERRORs?</p>
+        <div class="flex-row">
+            <div class="errorSection__error">
+                <p class="headerText2">Selection Error</p>
+                <div class="bodyText">
+                    <p>This means that you have to select one or more layers and then invoke the plugin.</p>
+                    <p>As of now, the selected layers are:-</p>
+                    <ul>
+                        <li>Rectangle</li>
+                        <li>Ellipse</li>
+                        <li>Polygon</li>
+                        <li>Path</li>
+                        <li>Boolean Group</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="errorSection__error">
+                <p class="headerText2">There are errors in styles JSON</p>
+                <div class="bodyText">
+                    <p>This means that there are some errors in parsing of the styles JSON. Please check whether you
+                        have entered a valid JSON.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer>
+        <div class="flex-row">
+            <div>
+                <p>Found a bug (or) request a feature?</p>
+                <p>Create an
+                    <a target="_blank" href="https://github.com/boopeshmahendran/AdobeXD-maps/issues">
+                        Issue on Github
+                    </a>
+                </p>
+            </div>
+            <div class="align-right">
+                <p class="text-align-right">Want to contribute?</p>
+                <p>
+                    <a target="_blank" href="https://github.com/boopeshmahendran/AdobeXD-maps">
+                        Fork and contribute on Github
+                    </a>
+                </p>
+            </div>
+        </div>
+        <p class="text-align-center">
+            Made with ❤️ by
+            <a target="_blank" href="https://github.com/boopeshmahendran">
+                Boopesh Mahendran
+            </a>
+        </p>
+    </footer>
 </body>
+
 </html>
