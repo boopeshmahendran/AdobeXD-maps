@@ -14,14 +14,6 @@
     line-height: 1.5;
 }
 
-.align-right {
-    margin-left: auto;
-}
-
-.text-align-right {
-    text-align: right;
-}
-
 .text-align-center {
     text-align: center;
 }
@@ -45,11 +37,11 @@
 
 /* Mobile styles */
 @media only screen and (max-width: 600px) {
-    /* Change right alignment to center on mobile */
-    .text-align-right {
-        text-align: center;
-    }
-    .align-right {
-        margin: auto;
+    /* Change row to column in mobile for better alignment */
+    .flex-row {
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
     }
 }

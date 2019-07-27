@@ -134,6 +134,12 @@ footer {
     color: var(--secondary-text-color);
 }
 
+.footer__content {
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+}
+
 /* Remove overlay image when screen width less than 1000px*/
 @media only screen and (max-width: 1000px) {
     .heroOverlayImg {
@@ -164,7 +170,7 @@ footer {
             -ms-flex-order: 1;
                 order: 1;
     }
-    footer {
-        text-align: center;
+    .footer__content__col p {
+        display: inline-block;
     }
 }
