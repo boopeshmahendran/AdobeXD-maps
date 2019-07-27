@@ -7,13 +7,16 @@
     <meta name="Description" content="Maps Generator - An adobe XD plugin">
     <title>Maps Generator for XD</title>
     <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/constants.css" />
+    <link rel="stylesheet" type="text/css" href="css/general.css" />
+    <link rel="stylesheet" type="text/css" href="css/utils.css" />
+    <link rel="stylesheet" type="text/css" href="css/core.css" />
 </head>
 
 <body>
     <section class="heroSection">
-        <img class="heroOverlayImg" src="images/heroOverlayImg.png" alt="Maps Generator UI image" />
+        <img class="heroOverlayImg materialShadow" src="images/heroOverlayImg.png" alt="Maps Generator UI image" />
         <div class="heroSection__content">
             <div class="flex-row">
                 <img class="heroSection__img" src="images/heroImg.png" alt="Maps Generator icon" />
@@ -22,7 +25,7 @@
                     <p>An Adobe XD plugin</p>
                 </div>
             </div>
-            <div class="flex-row">
+            <div class="flex-row heroSection__cta">
                 <a class="btn heroSection__downloadBtn" target="_blank"
                     href="https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866">
                     Download now
@@ -35,24 +38,24 @@
         <p class="headerText1">What It Does?</p>
         <p class="bodyText">
             Maps Generator lets you insert deeply customisable maps in your design with just
-            a few clicks using the google maps API. You can change the zoom level, map type
-            and even add custom styles.
+            a few clicks using the google maps API. You can change the <em>zoom level</em>, <em>map type</em>
+            and even add <em>custom styles.</em>
         </p>
     </section>
     <section class="installSection text-align-center">
         <p class="headerText1">How to Install?</p>
         <p>
-            Go to Manage Plugins and search for "Maps Generator or click
+            Go to Manage Plugins and search for "Maps Generator" or click
             <a target="_blank" href="https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866">
                 here
             </a>
         </p>
-        <img src="images/installImg.png" alt="Installation image" />
+        <img class="materialShadow" src="images/installImg.png" alt="Installation image" />
     </section>
     <section id="usageSection" class="usageSection">
         <div class="flex-row usagePointSection">
             <div class="usagePointSection__img">
-                <img src="images/locationImg.png" alt="Enter zoom leven and map type image" />
+                <img class="materialShadow" src="images/locationImg.png" alt="Enter zoom leven and map type image" />
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText1">
@@ -69,7 +72,7 @@
         </div>
         <div class="flex-row usagePointSection">
             <div class="usagePointSection__img">
-                <img src="images/mapTypeImg.png" alt="Enter zoom leven and map type image" />
+                <img class="materialShadow" src="images/mapTypeImg.png" alt="Enter zoom leven and map type image" />
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText2">
@@ -83,7 +86,7 @@
         </div>
         <div class="flex-row usagePointSection">
             <div class="usagePointSection__img">
-                <img src="images/stylesImg.png" alt="Enter custom styles image" />
+                <img class="materialShadow" src="images/stylesImg.png" alt="Enter custom styles image" />
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText2">
@@ -101,7 +104,7 @@
         </div>
         <div class="flex-row usagePointSection">
             <div class="usagePointSection__img">
-                <img src="images/locationPinImg.png" alt="Enter location pin image" />
+                <img class="materialShadow" src="images/locationPinImg.png" alt="Enter location pin image" />
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText2">
@@ -120,7 +123,7 @@
                 <p class="headerText2">Selection Error</p>
                 <div class="bodyText">
                     <p>This means that you have to select one or more layers and then invoke the plugin.</p>
-                    <p>As of now, the selected layers are:-</p>
+                    <p>As of now, the supported layers are:-</p>
                     <ul>
                         <li>Rectangle</li>
                         <li>Ellipse</li>
