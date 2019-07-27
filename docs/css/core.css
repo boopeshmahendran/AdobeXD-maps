@@ -145,5 +145,6 @@ footer {
 
 /* A hack to prevent FOUC */
 html {
+    visibility: visible;
     opacity: 1;
 }
