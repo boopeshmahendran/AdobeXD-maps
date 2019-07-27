@@ -19,6 +19,7 @@
     <link rel="stylesheet" type="text/css" href="css/general.css" />
     <link rel="stylesheet" type="text/css" href="css/utils.css" />
     <link rel="stylesheet" type="text/css" href="css/core.css" />
+    <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll@15.0.0/dist/smooth-scroll.polyfills.min.js"></script>
 </head>
 
 <body class="hidden">
@@ -44,7 +45,7 @@
     <section class="descriptionSection">
         <p class="headerText1">What It Does?</p>
         <p class="bodyText">
-            Maps Generator lets you insert deeply customisable maps in your design with just
+            It lets you insert deeply <em>customisable maps in your design</em> with just
             a few clicks using the google maps API. You can change the <em>zoom level</em>, <em>map type</em>
             and even add <em>custom styles.</em>
         </p>
@@ -52,7 +53,7 @@
     <section class="installSection text-align-center">
         <p class="headerText1">How to Install?</p>
         <p>
-            Go to Manage Plugins and search for "Maps Generator" or click
+            Go to Manage Plugins and search for "Maps Generator" (or) Click
             <a target="_blank" rel="noreferrer" href="https://xd.adobelanding.com/en/xd-plugin-download/?name=e1e8f866">
                 here
             </a>
@@ -60,19 +61,20 @@
         <img class="materialShadow" src="images/installImg.png" alt="Installation image" />
     </section>
     <section id="usageSection" class="usageSection">
+        <p class="headerText1 text-align-center">How to Use?</p>
         <div class="flex-row usagePointSection">
             <div class="usagePointSection__img">
                 <img class="materialShadow" src="images/locationImg.png" alt="Enter zoom leven and map type image" />
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText1">
-                    How to Use?
+                    Enter Location
                 </p>
                 <p class="bodyText">
                     <ul>
                         <li>Select one or more layers</li>
                         <li>Click on Plugins->Map Generator</li>
-                        <li>Enter a location and click generate</li>
+                        <li>Enter a location</li>
                     </ul>
                 </p>
             </div>
@@ -86,8 +88,8 @@
                     Change Map Type and Adjust Zoom Levels
                 </p>
                 <p class="bodyText">
-                    You can change map type to any of the following types - Roadmap, terrain, satellite and hybrid. You
-                    can also choose a zoom level from 1 - 20.
+                    You can change map type to any of the following types - <em>Roadmap</em>, <em>Terrain</em>, <em>Satellite</em> and <em>Hybrid</em>. You
+                    can also choose a zoom level from <em>1 - 20</em>.
                 </p>
             </div>
         </div>
@@ -100,12 +102,11 @@
                     Add custom styles
                 </p>
                 <p class="bodyText">
-                    You can even add custom styles to deeply customise your map.
-                    Take a look at
+                    You can even add custom styles to your map.
                     <a target="_blank" href="https://snazzymaps.com/" rel="noreferrer">
                         Snazzy Maps
                     </a>
-                    which provides a lot of custom map styles
+                    is a great place to get awesome custom styles.
                 </p>
             </div>
         </div>
@@ -115,10 +116,11 @@
             </div>
             <div class="usagePointSection__content">
                 <p class="headerText2">
-                    Disable default location pin if you want to add your own custom pin
+                    Enable/Disable default location pin
                 </p>
                 <p class="bodyText">
-                    You can enable/disable the default location pin provided by google maps.
+                    If you want to design your own location pin, you can disable
+                    the default location pin provided by google maps.
                 </p>
             </div>
         </div>
@@ -178,6 +180,8 @@
 </body>
 
 <script>
+    var scroll = new SmoothScroll('a[href*="#"]');
+
     /* A hack to prevent FOUC */
     window.addEventListener('load', function () {
         document.body.classList.remove('hidden');

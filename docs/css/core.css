@@ -7,6 +7,7 @@
     position: absolute;
     right: 20px;
     max-height: 650px;
+    box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
 }
 
 .heroSection__content {
@@ -99,7 +100,7 @@
     max-width: 100%;
 }
 
-.usagePointSection:nth-child(odd) .usagePointSection__img {
+.usagePointSection:nth-child(even) .usagePointSection__img {
     order: 1;
 }
 
@@ -131,6 +132,7 @@ footer {
     }
     .heroSection__text {
         padding: 0;
+        margin-top: -40px;
     }
     .usagePointSection__img, .usagePointSection__content {
         max-width: 100%;
