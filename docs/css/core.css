@@ -1,6 +1,5 @@
 /* Hero section */
 .heroSection {
-    position: relative;
     height: 400px;
 }
 
@@ -13,17 +12,18 @@
 .heroSection__content {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    top: 10%;
-    left: 10%;
 }
 
 .heroSection__text {
-    padding: 1em;
+    padding: 2em;
 }
 
 .heroSection__cta {
     align-items: center;
+}
+
+.heroSection__img {
+    object-fit: contain;
 }
 
 .heroSection__downloadBtn {
@@ -114,21 +114,23 @@ footer {
     color: var(--secondary-text-color);
 }
 
-/* Mobile styles */
+/* Remove overlay image when screen width less than 1000px*/
 @media only screen and (max-width: 1000px) {
+    .heroOverlayImg {
+        display: none;
+    }
+}
+
+/* Mobile styles */
+@media only screen and (max-width: 600px) {
     .flex-row {
         flex-direction: column;
     }
     .heroSection__content {
         text-align: center;
     }
-    .heroSection__img {
-        width: 100px;
-        height: 100px;
-    }
-    .installSection {
-        padding-left: 1em;
-        padding-right: 1em;
+    .heroSection__text {
+        padding: 0;
     }
     .usagePointSection__img, .usagePointSection__content {
         max-width: 100%;
@@ -136,7 +138,7 @@ footer {
     .usagePointSection__img {
         order: 1;
     }
-    .heroOverlayImg {
-        display: none;
+    footer {
+        text-align: center;
     }
 }

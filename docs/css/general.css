@@ -21,3 +21,11 @@ a {
 a:hover {
     filter: brightness(90%);
 }
+
+/* Mobile styles */
+@media only screen and (max-width: 600px) {
+    section, footer {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}

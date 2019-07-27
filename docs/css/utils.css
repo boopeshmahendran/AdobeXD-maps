@@ -39,3 +39,14 @@
 .materialShadow {
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
+
+/* Mobile styles */
+@media only screen and (max-width: 600px) {
+    /* Change right alignment to center on mobile */
+    .text-align-right {
+        text-align: center;
+    }
+    .align-right {
+        margin: auto;
+    }
+}
