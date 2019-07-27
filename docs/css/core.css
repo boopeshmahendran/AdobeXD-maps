@@ -7,12 +7,18 @@
     position: absolute;
     right: 20px;
     max-height: 650px;
-    box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+    -webkit-box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+            box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
 }
 
 .heroSection__content {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
 }
 
 .heroSection__text {
@@ -20,17 +26,21 @@
 }
 
 .heroSection__cta {
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
 }
 
 .heroSection__img {
-    object-fit: contain;
+    -o-object-fit: contain;
+       object-fit: contain;
 }
 
 .heroSection__downloadBtn {
     background-color: var(--primary-color);
     color: white;
     text-transform: uppercase;
+    -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 
@@ -38,6 +48,7 @@
     position: relative;
     padding: 0;
     margin: 1em 2em;
+    -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 
@@ -46,7 +57,8 @@
 }
 
 .heroSection__usageBtn:hover::before {
-    transform: scaleY(2);
+    -webkit-transform: scaleY(2);
+            transform: scaleY(2);
 }
 
 .heroSection__usageBtn::before {
@@ -60,6 +72,7 @@
     left: 0;
     bottom: -0.3rem;
     margin: auto;
+    -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 
@@ -83,7 +96,9 @@
 }
 
 .usagePointSection {
-    justify-content: space-between;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     margin: 2em 0;
 }
 
@@ -101,12 +116,16 @@
 }
 
 .usagePointSection:nth-child(even) .usagePointSection__img {
-    order: 1;
+    -webkit-box-ordinal-group: 2;
+        -ms-flex-order: 1;
+            order: 1;
 }
 
 /* Error section */
 .errorSection__error {
-    flex: 1;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
 }
 
 /* Footer */
@@ -125,7 +144,10 @@ footer {
 /* Mobile styles */
 @media only screen and (max-width: 600px) {
     .flex-row {
-        flex-direction: column;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+                flex-direction: column;
     }
     .heroSection__content {
         text-align: center;
@@ -138,7 +160,9 @@ footer {
         max-width: 100%;
     }
     .usagePointSection__img {
-        order: 1;
+        -webkit-box-ordinal-group: 2;
+            -ms-flex-order: 1;
+                order: 1;
     }
     footer {
         text-align: center;

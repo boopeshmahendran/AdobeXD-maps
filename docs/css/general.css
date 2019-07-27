@@ -10,16 +10,19 @@ html, body {
 section, footer {
     padding: 1.5em 4em;
     width: 100%;
-    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+            box-sizing: border-box;
 }
 
 a {
     color: inherit;
+    -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
 
 a:hover {
-    filter: brightness(90%);
+    -webkit-filter: brightness(90%);
+            filter: brightness(90%);
 }
 
 ul {
