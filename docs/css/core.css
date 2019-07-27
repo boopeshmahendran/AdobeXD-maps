@@ -142,3 +142,8 @@ footer {
         text-align: center;
     }
 }
+
+/* A hack to prevent FOUC */
+html {
+    opacity: 1;
+}
