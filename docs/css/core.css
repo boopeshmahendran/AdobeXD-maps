@@ -149,12 +149,6 @@ footer {
 
 /* Mobile styles */
 @media only screen and (max-width: 600px) {
-    .flex-row {
-        -webkit-box-orient: vertical;
-        -webkit-box-direction: normal;
-            -ms-flex-direction: column;
-                flex-direction: column;
-    }
     .heroSection__content {
         text-align: center;
     }
@@ -172,5 +166,9 @@ footer {
     }
     .footer__content__col p {
         display: inline-block;
+        margin: 3px;
+    }
+    .footer__content__col {
+        margin-bottom: 12px;
     }
 }
