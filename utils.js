@@ -1,5 +1,5 @@
 const uxp = require("uxp").storage;
-const apiKeys = require("./apiKeys.json").apiKeys;
+//const apiKeys = require("./apiKeys.json").apiKeys;
 const fs = uxp.localFileSystem;
 
 /**
@@ -58,8 +58,8 @@ function getApiKey() {
 /**
  * Converts a styles json to styles url parameter
  * Copied from https://stackoverflow.com/questions/19115223/converting-google-maps-styles-array-to-google-static-maps-styles-string
- * 
- * @param {string} jsonStr 
+ *
+ * @param {string} jsonStr
  * @return string
  */
 
@@ -101,7 +101,7 @@ function parseStyles(jsonStr) {
 
 /**
  * Gets the dimensions of a node based on its type
- * 
+ *
  * @returns {Object} Object containing width and height
  */
 function getDimensions(node) {
@@ -112,12 +112,12 @@ function getDimensions(node) {
             width = node.width;
             height = node.height;
             break;
-        case "Ellipse": 
+        case "Ellipse":
             width = node.radiusX * 2;
             height = node.radiusY * 2;
             break;
         case "BooleanGroup": // Selecting arbitrary values for path and boolean group
-        case "Path": 
+        case "Path":
             width = 500;
             height = 500;
             break;
