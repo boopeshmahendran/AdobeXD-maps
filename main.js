@@ -94,6 +94,9 @@ function init() {
     .stylesLink {
         font-size: 13px;
     }
+    #apikey {
+      width: 200px;
+    }
 </style>
 <form method="dialog">
     <h1 class="h1">
@@ -141,6 +144,10 @@ function init() {
             <p class="stylesLink">
                 <a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a>
             </p>
+        </label>
+        <label>
+          <p> Enter API-KEY </p>
+          <input type="text" id="apikey" placeholder="DO NOT SHARE THIS!"/>
         </label>
         <label class="row">
             <input type="checkbox" checked="true" id="locationPin"/>
@@ -205,7 +212,7 @@ function init() {
 
 /**
  * Gets the Input data from the UI
- * 
+ *
  * @returns {Object} Object containing input data
  */
 function getInputData() {
@@ -214,13 +221,14 @@ function getInputData() {
         zoom: dialog.querySelector('#zoom').value || '',
         mapType: dialog.querySelector('#mapType').textContent.toLowerCase(),
         locationPin: dialog.querySelector('#locationPin').checked,
-        styles: dialog.querySelector('#styles').value || ''
+        styles: dialog.querySelector('#styles').value || '',
+        apikey: dialog.querySelector('#apikey').value
     }
 }
 
 /**
  * Show the input dialog UI
- * 
+ *
  * @returns {Promise} Resolves to an object of form {which, values}. `which` indicates which button
  * was pressed. `values` is an object containing the values of the form.
  */
@@ -265,7 +273,7 @@ async function generateMap(selection) {
     if (response.which === ButtonsEnum.CANCEL) { // Dialog cancelled
         return;
     }
-    
+
     const inputValues = response.values;
     let mapStyles = '';
 
@@ -278,7 +286,7 @@ async function generateMap(selection) {
         return;
     }
 
-    const apiKey = utils.getApiKey();
+    const apiKey = inputValues.apikey
 
     const totalObjCount = selection.items.length;
     let filledObjCount = 0;
