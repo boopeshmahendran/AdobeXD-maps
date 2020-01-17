@@ -10,16 +10,14 @@ const ButtonsEnum = {
     OK: 1
 };
 
-let stylesValue = '';
-
 /**
  * Creates and initializes the dialog UI
  */
-function init() {
+async function init() {
     dialog.innerHTML = `
 <style>
     form {
-        width: 360px;
+        width: 500px;
     }
     label {
         margin-bottom: 10px;
@@ -63,6 +61,12 @@ function init() {
     #zoomValue, #mapType {
         font-weight: 700;
     }
+    #styles {
+        width: 350px;
+    }
+    #location, #apiKey, #styles {
+        width: 300px;
+    }
     .zoomLevelInput, .mapTypeInput {
         display: flex;
         width: 350px;
@@ -91,13 +95,17 @@ function init() {
     .mapType.selected .checkmark {
         visibility: visible;
     }
+    .note {
+        font-size: 10px;
+        color: #777777;
+    }
     .stylesLink {
-        font-size: 13px;
+        font-size: 10px;
     }
 </style>
 <form method="dialog">
     <h1 class="h1">
-        <span>Maps generator</span>
+        <span>Maps Generator</span>
         <img class="plugin-icon" src="images/logo2.png" />
     </h1>
     <hr />
@@ -136,15 +144,19 @@ function init() {
             </div>
         </label>
         <label>
-            <p>Enter JSON styles (optional) </p>
-            <textarea height="80px" placeholder="Enter JSON styles" id="styles"></textarea>
-            <p class="stylesLink">
-                <a href="https://developers.google.com/maps/documentation/javascript/style-reference">Learn more about Styling</a>
-            </p>
+            <div class="row"><input type="checkbox" checked="true" id="locationPin"/> <p>Include Location Pin</p></div>
         </label>
-        <label class="row">
-            <input type="checkbox" checked="true" id="locationPin"/>
-            <p> Include Location Pin </p>
+        <label>
+            <p>Enter JSON styles (optional)</p>
+            <textarea height="80px" placeholder="Enter JSON styles" id="styles"></textarea>
+            <a href="https://developers.google.com/maps/documentation/javascript/style-reference" class="stylesLink">Learn more about Styling</a>
+        </label>
+        <hr />
+        <label>
+            <p>Enter Your Google Static Maps API Key</p>
+            <input type="text" id="apiKey" />
+            <p class="note">NOTE: You must enable billing in your Google Cloud Platform project.</p>
+            <a href="https://support.google.com/googleapi/answer/6158867?hl=en" class="stylesLink">Learn how to Enable Billing</a>
         </label>
     </div>
     <footer>
@@ -199,6 +211,18 @@ function init() {
         }
     });
 
+    // Retrieve previous settings
+    const apiKeyInput = dialog.querySelector("#apiKey");
+    const savedApiKey = await utils.storageHelper.get('apiKey', '');
+    const styles = dialog.querySelector("#styles");
+    const savedStyles = await utils.storageHelper.get('styles', '');
+    apiKeyInput.value = savedApiKey;
+    if (os.platform() === "darwin") {
+        styles.innerHTML = savedStyles;
+    }
+    else {
+        styles.value = savedStyles;
+    }
 
     document.appendChild(dialog);
 }
@@ -214,7 +238,8 @@ function getInputData() {
         zoom: dialog.querySelector('#zoom').value || '',
         mapType: dialog.querySelector('#mapType').textContent.toLowerCase(),
         locationPin: dialog.querySelector('#locationPin').checked,
-        styles: dialog.querySelector('#styles').value || ''
+        styles: dialog.querySelector('#styles').value || '',
+        apiKey: dialog.querySelector('#apiKey').value
     }
 }
 
@@ -226,13 +251,6 @@ function getInputData() {
  */
 async function showDialog() {
     try {
-        // For some strange reason, value of textarea is not retained in mac
-        // when dialog is closed and opened, so storing the previous value
-        // in a global variable and setting it on dialog open only in mac
-        // In windows, the value is retained.
-        if (os.platform() === "darwin") {
-            dialog.querySelector('#styles').innerHTML = stylesValue;
-        }
         const response = await dialog.showModal();
         if (response === 'reasonCanceled') {
             // user hit ESC
@@ -243,8 +261,6 @@ async function showDialog() {
     } catch(err) {
         // system refused the dialog
         return {which: ButtonsEnum.CANCEL, value: ''};
-    } finally {
-        stylesValue = dialog.querySelector('#styles').value;
     }
 }
 
@@ -269,16 +285,25 @@ async function generateMap(selection) {
     const inputValues = response.values;
     let mapStyles = '';
 
+    // Error checking
+    if (inputValues.location == "") {
+        error("Error", "You did not provide a place or address for your location.");
+        return;
+    }
+
+    if (inputValues.apiKey == "") {
+        error("Error", "Missing Google Static Maps API key. <a href=\"https://developers.google.com/maps/documentation/maps-static/get-api-key\">Generate one!</a>");
+        return;
+    }
+
     try {
         if (inputValues.styles) {
             mapStyles = utils.parseStyles(inputValues.styles);
         }
     } catch (errMsg) {
-        await error("Error", "There are errors in styles JSON");
+        await error("Error", "There are errors in styles JSON.");
         return;
     }
-
-    const apiKey = utils.getApiKey();
 
     const totalObjCount = selection.items.length;
     let filledObjCount = 0;
@@ -294,15 +319,29 @@ async function generateMap(selection) {
             continue;
         }
 
+        // Save settings
+        try {
+            await utils.storageHelper.set('apiKey', dialog.querySelector("#apiKey").value);
+        } catch(errMsg) {
+            await error("Error", errMsg);
+            return;
+        }
+        try {
+            await utils.storageHelper.set('styles', dialog.querySelector("#styles").value);
+        } catch(errMsg) {
+            await error("Error", errMsg);
+            return;
+        }
+
         const url = "https://maps.googleapis.com/maps/api/staticmap?" +
             "center=" + encodeURIComponent(inputValues.location) +
             "&zoom=" + encodeURIComponent(inputValues.zoom) +
             "&size=" + encodeURIComponent(width) + "x" + encodeURIComponent(height) +
             "&scale=2" +
             "&maptype=" + encodeURIComponent(inputValues.mapType) +
-            (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)): "") +
+            (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)) : "") +
             mapStyles +
-            "&key=" + encodeURIComponent(apiKey);
+            "&key=" + encodeURIComponent(inputValues.apiKey);
 
         try {
             const tempFile = await utils.downloadImage(url);

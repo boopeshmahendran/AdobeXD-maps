@@ -1,11 +1,11 @@
 {
-  "summary" : "Generate Maps",
+  "summary" : "Generate maps",
   "website" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
   "keywords" : ["design", "maps", "google maps", "automation", "latitude", "longitude", "satellite", "terrain", "roadmap"],
   "languages" : [ "en"],
   "author" : "Boopesh Mahendran",
   "description" : "Generate maps using the Google Maps API. \n\nEnter a place name or latitude and longitude and click Generate Map. It's that simple!\n\n You can also change the Map Type, Zoom Level and add Custom Styles.",
-  "releaseNotes": "1. Add support for Polygon \n2. Revamp the UI \n3. Retain input values in a session",
+  "releaseNotes": "1. Remove default API key and related code \n2. Add user-defined API key implementation \n3. Add application-persistent plugin settings to save JSON and API keys \n4. Minor UI cleanup and fix plugin name casing",
   "helpUrl" : "https://github.com/boopeshmahendran/AdobeXD-maps/blob/master/README.md",
   "main" : "main.js",
   "icons" : [ {
@@ -30,14 +30,14 @@
     "height" : 192
   } ],
   "version" : "1.3.0",
-  "name" : "Maps generator",
+  "name" : "Maps Generator",
   "host" : {
     "app" : "XD",
     "minVersion" : "13.0"
   },
   "id" : "e1e8f866",
   "uiEntryPoints" : [ {
-    "label" : "Maps generator",
+    "label" : "Maps Generator",
     "type" : "menu",
     "commandId" : "generateMap"
   } ]
