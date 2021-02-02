@@ -2,42 +2,23 @@ const { ImageFill } = require("scenegraph");
 const os = require("os");
 const utils = require("./utils");
 const { alert, error } = require("./lib/dialogs");
+const { editDocument } = require("application");
 
-const dialog = document.createElement('dialog');
-
-const ButtonsEnum = {
-    CANCEL: 0,
-    OK: 1
-};
+let panel;
 
 /**
  * Creates and initializes the dialog UI
  */
 async function init() {
-    dialog.innerHTML = `
+
+    const HTML = `
 <style>
     form {
-        width: 500px;
+        padding: 4px;
     }
     label {
+        padding-right: 8px;
         margin-bottom: 10px;
-    }
-    .h1 {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .h1 img {
-        width: 18px;
-        height: 18px;
-        flex: 0 0 18px;
-        padding: 0;
-        margin: 0;
-    }
-    img.plugin-icon {
-        border-radius: 4px;
-        overflow: hidden;
     }
     .container {
         overflow-x: hidden;
@@ -47,49 +28,49 @@ async function init() {
     .row {
         align-items: center;
     }
-    .zoomLevel {
-        width: 57px;
-        height: 81px;
-        margin: 1px;
+    .zoomLevelImage {
+        min-height: 65px;
+        max-height: 150px;
+        object-fit: contain;
     }
-    .zoomLevelInput {
-        height: 85px;
+    .zoomLevel {
         width: 100%;
-        background: url("images/zoomlevels.png");
-        background-size: contain;
+        height: auto;
+        margin: 1px;
     }
     #zoomValue, #mapType {
         font-weight: 700;
     }
-    #styles {
-        width: 350px;
-    }
     #location, #apiKey, #styles {
-        width: 300px;
+        width: 100%;
     }
     .zoomLevelInput, .mapTypeInput {
         display: flex;
-        width: 350px;
-        margin-left: 5px;
+        width: 100%;
         margin-top: 5px;
+        justify-content: space-around;
+    }
+    .mapTypeImage{
+        min-height: 36px;
+        max-height: 60px;
+        object-fit:contain;
     }
     .mapType {
-        width: 88px;
+        width: 100%;
         position: relative;
-        height: 36px;
         margin: 1px;
-    }
-    .mapTypeInput {
-        height: 40px;
-        background: url("images/maptypes.png");
-        background-size: contain;
+        align-content: center;
     }
     .checkmark {
         position: absolute;
-        width: 16px;
-        height: 16px;
-        top: 12px;
-        left: 36px;
+        
+        min-width: 15px;
+        width: 25%;
+        max-width: 30px;
+
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         visibility: hidden;
     }
     .mapType.selected .checkmark {
@@ -100,15 +81,11 @@ async function init() {
         color: #777777;
     }
     .stylesLink {
+        text-align: right;
         font-size: 10px;
     }
 </style>
 <form method="dialog">
-    <h1 class="h1">
-        <span>Maps Generator</span>
-        <img class="plugin-icon" src="images/logo2.png" />
-    </h1>
-    <hr />
     <div class="container">
         <label>
             <p>Location</p>
@@ -118,27 +95,43 @@ async function init() {
             <div class="row"><p>Zoom Level: </p><p id="zoomValue">12</p></div>
             <input type="range" min=1 max=20 value=12 step=1 id="zoom" />
             <div class="zoomLevelInput">
-                <div class="zoomLevel"> </div>
-                <div class="zoomLevel"> </div>
-                <div class="zoomLevel"> </div>
-                <div class="zoomLevel"> </div>
-                <div class="zoomLevel"> </div>
-                <div class="zoomLevel"> </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/2.png">
+                </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/5.png">
+                </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/9.png">
+                </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/12.png">
+                </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/15.png">
+                </div>
+                <div class="zoomLevel">
+                    <img class="zoomLevelImage" src="images/zoomlevels/19.png">
+                </div>
             </div>
         </label>
         <label>
             <div class="row"><p>Map Type: </p><p id="mapType">Roadmap</p> </div>
             <div class="mapTypeInput">
                 <div class="mapType selected">
+                    <img class="mapTypeImage" src="images/maptypes/roadmap.png">
                     <img class="checkmark" src="images/checkmark.png" alt="selected" />
                 </div>
                 <div class="mapType">
+                    <img class="mapTypeImage" src="images/maptypes/terrain.png">
                     <img class="checkmark" src="images/checkmark.png" alt="selected" />
                 </div>
                 <div class="mapType">
+                    <img class="mapTypeImage" src="images/maptypes/satellite.png">
                     <img class="checkmark" src="images/checkmark.png" alt="selected" />
                 </div>
                 <div class="mapType">
+                    <img class="mapTypeImage" src="images/maptypes/hybrid.png"> 
                     <img class="checkmark" src="images/checkmark.png" alt="selected" />
                 </div>
             </div>
@@ -160,20 +153,22 @@ async function init() {
         </label>
     </div>
     <footer>
-        <button id="btn0" uxp-variant="primary">Cancel</button>
         <button id="btn1" type="submit" uxp-variant="cta">Generate Map</button>
     </footer>
 </form>
     `;
 
+    panel = document.createElement("panel");
+    panel.innerHTML = HTML;
+
     // Zoom level input handling
-    const zoomValueEl = dialog.querySelector("#zoomValue");
-    const zoomSlider = dialog.querySelector("#zoom");
-    zoomSlider.addEventListener("change", function(e) {
+    const zoomValueEl = panel.querySelector("#zoomValue");
+    const zoomSlider = panel.querySelector("#zoom");
+    zoomSlider.addEventListener("input", function (e) {
         zoomValueEl.textContent = zoomSlider.value;
     });
 
-    const zoomLevels = Array.from(dialog.querySelectorAll(".zoomLevel"));
+    const zoomLevels = Array.from(panel.querySelectorAll(".zoomLevel"));
     const zoomLevelValues = [2, 5, 9, 12, 15, 19];
 
     zoomLevels.forEach((el, idx) => {
@@ -185,22 +180,18 @@ async function init() {
     });
 
     // Ensure that the form can submit when the user presses ENTER
-    const form = dialog.querySelector('form');
-    form.onsubmit = () => dialog.close('ok');
+    const form = panel.querySelector('form');
+    form.onsubmit = generateMap;
 
     // Attach button event handlers
-    [0, 1].forEach(idx => {
-        const button = dialog.querySelector(`#btn${idx}`);
-        button.onclick = e => {
-            e.preventDefault();
-            dialog.close( idx === ButtonsEnum.CANCEL ? 'reasonCanceled' : 'ok');
-        }
-    });
+
+    const button = panel.querySelector(`#btn1`);
+    button.onclick = generateMap;
 
     // Map types input handling
-    const mapTypes = Array.from(dialog.querySelectorAll(".mapType"));
+    const mapTypes = Array.from(panel.querySelectorAll(".mapType"));
     const mapTypeValues = ["Roadmap", "Terrain", "Satellite", "Hybrid"];
-    const mapTypeValueEl = dialog.querySelector("#mapType");
+    const mapTypeValueEl = panel.querySelector("#mapType");
 
     mapTypes.forEach((el, idx) => {
         el.onclick = e => {
@@ -212,9 +203,9 @@ async function init() {
     });
 
     // Retrieve previous settings
-    const apiKeyInput = dialog.querySelector("#apiKey");
+    const apiKeyInput = panel.querySelector("#apiKey");
     const savedApiKey = await utils.storageHelper.get('apiKey', '');
-    const styles = dialog.querySelector("#styles");
+    const styles = panel.querySelector("#styles");
     const savedStyles = await utils.storageHelper.get('styles', '');
     apiKeyInput.value = savedApiKey;
     if (os.platform() === "darwin") {
@@ -224,7 +215,8 @@ async function init() {
         styles.value = savedStyles;
     }
 
-    document.appendChild(dialog);
+    return panel;
+
 }
 
 /**
@@ -234,55 +226,40 @@ async function init() {
  */
 function getInputData() {
     return {
-        location: dialog.querySelector('#location').value || '',
-        zoom: dialog.querySelector('#zoom').value || '',
-        mapType: dialog.querySelector('#mapType').textContent.toLowerCase(),
-        locationPin: dialog.querySelector('#locationPin').checked,
-        styles: dialog.querySelector('#styles').value || '',
-        apiKey: dialog.querySelector('#apiKey').value
+        location: panel.querySelector('#location').value || '',
+        zoom: panel.querySelector('#zoom').value || '',
+        mapType: panel.querySelector('#mapType').textContent.toLowerCase(),
+        locationPin: panel.querySelector('#locationPin').checked,
+        styles: panel.querySelector('#styles').value || '',
+        apiKey: panel.querySelector('#apiKey').value
     }
 }
 
-/**
- * Show the input dialog UI
- * 
- * @returns {Promise} Resolves to an object of form {which, values}. `which` indicates which button
- * was pressed. `values` is an object containing the values of the form.
- */
-async function showDialog() {
-    try {
-        const response = await dialog.showModal();
-        if (response === 'reasonCanceled') {
-            // user hit ESC
-            return {which: ButtonsEnum.CANCEL, value: ''};
-        } else {
-            return {which: ButtonsEnum.OK, values: getInputData()};
-        }
-    } catch(err) {
-        // system refused the dialog
-        return {which: ButtonsEnum.CANCEL, value: ''};
+async function show(event) {
+
+    if(!panel){
+        panel = await init();
+        event.node.appendChild(panel);
     }
+
+}
+
+function hide(event) {
+    // Not necessary at the moment
+}
+
+function update(selection) {
+  
+    panel.querySelector("#btn1").disabled = selection.items.length === 0;
+
 }
 
 /**
  * Main function which generates the map
  */
-async function generateMap(selection) {
-    if (selection.items.length === 0) {
-        await error(
-            "Selection Error",
-            "Please select some layers.",
-            "Supported layers are Rectangle, Ellipse, Path and BooleanGroup."
-         );
-        return ;
-    }
+async function generateMap() {
 
-    const response = await showDialog();
-    if (response.which === ButtonsEnum.CANCEL) { // Dialog cancelled
-        return;
-    }
-    
-    const inputValues = response.values;
+    const inputValues = getInputData();
     let mapStyles = '';
 
     // Error checking
@@ -305,69 +282,81 @@ async function generateMap(selection) {
         return;
     }
 
-    const totalObjCount = selection.items.length;
-    let filledObjCount = 0;
-    let finishMsg = "";
 
-    for (let node of selection.items) {
-        let width, height;
+    editDocument({ editLabel: "Generate Map" }, async function (selection) {
 
-        try {
-            ({width, height} = utils.getDimensions(node));
-        } catch(errMsg) {
-            finishMsg += `\n${node.constructor.name} is not supported and so was skipped.\n`
-            continue;
+        //This error handling is going to move somewhere else
+
+        const totalObjCount = selection.items.length;
+        let filledObjCount = 0;
+        let finishMsg = "";
+
+        for (let node of selection.items) {
+            let width, height;
+
+            try {
+                ({ width, height } = utils.getDimensions(node));
+            } catch (errMsg) {
+                finishMsg += `\n${node.constructor.name} is not supported and so was skipped.\n`
+                continue;
+            }
+
+            // Save settings
+            try {
+                await utils.storageHelper.set('apiKey', panel.querySelector("#apiKey").value);
+            } catch (errMsg) {
+                await error("Error", errMsg);
+                return;
+            }
+            try {
+                await utils.storageHelper.set('styles', panel.querySelector("#styles").value);
+            } catch (errMsg) {
+                await error("Error", errMsg);
+                return;
+            }
+
+            const url = "https://maps.googleapis.com/maps/api/staticmap?" +
+                "center=" + encodeURIComponent(inputValues.location) +
+                "&zoom=" + encodeURIComponent(inputValues.zoom) +
+                "&size=" + encodeURIComponent(width) + "x" + encodeURIComponent(height) +
+                "&scale=2" +
+                "&maptype=" + encodeURIComponent(inputValues.mapType) +
+                (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)) : "") +
+                mapStyles +
+                "&key=" + encodeURIComponent(inputValues.apiKey);
+
+            try {
+                const tempFile = await utils.downloadImage(url);
+                const imageFill = new ImageFill(tempFile);
+                node.fill = imageFill;
+                node.fillEnabled = true;
+            } catch (errMsg) {
+                await error("Error", errMsg);
+                return;
+            }
+
+            filledObjCount++;
         }
 
-        // Save settings
-        try {
-            await utils.storageHelper.set('apiKey', dialog.querySelector("#apiKey").value);
-        } catch(errMsg) {
-            await error("Error", errMsg);
-            return;
-        }
-        try {
-            await utils.storageHelper.set('styles', dialog.querySelector("#styles").value);
-        } catch(errMsg) {
-            await error("Error", errMsg);
-            return;
+        if (finishMsg) { // Show done dialog only if some layers are skipped
+            finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
+            await alert("Done", finishMsg);
         }
 
-        const url = "https://maps.googleapis.com/maps/api/staticmap?" +
-            "center=" + encodeURIComponent(inputValues.location) +
-            "&zoom=" + encodeURIComponent(inputValues.zoom) +
-            "&size=" + encodeURIComponent(width) + "x" + encodeURIComponent(height) +
-            "&scale=2" +
-            "&maptype=" + encodeURIComponent(inputValues.mapType) +
-            (inputValues.locationPin ? ("&markers=color:red%7C" + encodeURIComponent(inputValues.location)) : "") +
-            mapStyles +
-            "&key=" + encodeURIComponent(inputValues.apiKey);
+    })
 
-        try {
-            const tempFile = await utils.downloadImage(url);
-            const imageFill = new ImageFill(tempFile);
-            node.fill = imageFill;
-            node.fillEnabled = true;
-        } catch (errMsg) {
-            await error("Error", errMsg);
-            return;
-        }
-
-        filledObjCount++;
-    }
-
-    if (finishMsg) { // Show done dialog only if some layers are skipped
-        finishMsg += `\n${filledObjCount} of ${totalObjCount} selected objects were filled\n`;
-        await alert("Done", finishMsg);
-    }
-
-    return ;
+    return;
 }
 
-init(); // Creates the dialog
-
 module.exports = {
-    commands: {
-        generateMap
+    //   commands: {
+    //      generateMap
+    //    },
+    panels: {
+        mapGenerator: {
+            show,
+            hide,
+            update
+        }
     }
 }

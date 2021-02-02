@@ -36,9 +36,10 @@
     "minVersion" : "13.0"
   },
   "id" : "e1e8f866",
-  "uiEntryPoints" : [ {
+  "uiEntryPoints" : [
+  {
     "label" : "Maps Generator",
-    "type" : "menu",
-    "commandId" : "generateMap"
+    "type" : "panel",
+    "panelId" : "mapGenerator"
   } ]
 }
